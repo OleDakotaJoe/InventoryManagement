@@ -6,20 +6,104 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.layout.BorderPane?>
-<BorderPane fx:controller="com.inventory.Controller"
-            xmlns:fx="http://javafx.com/fxml" >
-    <top>
+<?import javafx.scene.layout.HBox?>
+<GridPane fx:controller="com.inventory.Controller"
+          xmlns:fx="http://javafx.com/fxml"
+          alignment="center"
+          hgap="20"
+          vgap="20"
+>
+    <padding>
+        <Insets  right="40" />
+    </padding>
+        <BorderPane prefWidth="350"
+                    prefHeight="200"
+                    GridPane.rowIndex="2"
+                    GridPane.columnIndex="2"
+                    style="-fx-border-color: gray; -fx-border-width: 1; -fx-padding: 10; -fx-border-radius: 10;"
+                    GridPane.columnSpan="6"
+        >
+            <top>
+                <Label text="Parts" />
+            </top>
+            <center>
+                <TableView GridPane.columnIndex="0" GridPane.rowIndex="0" />
+            </center>
+            <bottom>
+                <GridPane alignment="BASELINE_RIGHT"
+                          hgap="4"
+                >
+                        <Button fx:id="addPart"
+                                text="Add"
+                                GridPane.rowIndex="0"
+                                GridPane.columnIndex="1"
+                        />
+                        <Button fx:id="modifyPart"
+                                text="Modfy"
+                                GridPane.rowIndex="0"
+                                GridPane.columnIndex="3"
+                        />
+                        <Button fx:id="deletePart"
+                                text="Delete"
+                                GridPane.rowIndex="0"
+                                GridPane.columnIndex="6"
+                        />
+                    <padding>
+                        <Insets top="10"  right="10"/>
+                    </padding>
 
-    </top>
-    <left>
-        <VBox>
-            <Label text="Parts" />
-            <TableView GridPane.columnIndex="0" GridPane.rowIndex="0" />
-        </VBox>
-    </left>
-    <right>
+                </GridPane>
+            </bottom>
+        </BorderPane>
+        <BorderPane prefWidth="350"
+                    prefHeight="200"
+                    GridPane.rowIndex="2"
+                    GridPane.columnIndex="10"
+                    style="-fx-border-color: gray; -fx-border-width: 1; -fx-padding: 10; -fx-border-radius: 10;"
+                    GridPane.columnSpan="6"
+        >
+            <top>
+                <Label text="Products" />
+            </top>
+            <center>
+                <TableView GridPane.columnIndex="0" GridPane.rowIndex="0" />
+            </center>
+            <bottom>
+                <GridPane alignment="BASELINE_RIGHT"
+                          hgap="3"
+                >
+                    <Button fx:id="addProduct"
+                            text="Add"
+                            GridPane.rowIndex="0"
+                            GridPane.columnIndex="1"
+                    />
+                    <Button fx:id="modifyProduct"
+                            text="Modfy"
+                            GridPane.rowIndex="0"
+                            GridPane.columnIndex="3"
+                    />
+                    <Button fx:id="deleteProduct"
+                            text="Delete"
+                            GridPane.rowIndex="0"
+                            GridPane.columnIndex="6"
+                    />
+                    <padding>
+                        <Insets top="10"  right="10"/>
+                    </padding>
 
-    </right>
+                </GridPane>
+            </bottom>
+        </BorderPane>
+        <HBox GridPane.columnIndex="15"
+              GridPane.rowIndex="3"
+              alignment="BASELINE_RIGHT"
+        >
+            <padding>
+                <Insets right="40"/>
+            </padding>
+            <Button fx:id="exitButton"
+                    text="Exit"
+            />
+        </HBox>
 
-
-</BorderPane>
+</GridPane>
