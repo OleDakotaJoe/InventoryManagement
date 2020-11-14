@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<GridPane xmlns="http://javafx.com/javafx"
+          xmlns:fx="http://javafx.com/fxml"
+          prefHeight="525.0" prefWidth="465.0"
+          alignment="BASELINE_LEFT"
+          hgap="20" vgap="10"
+          gridLinesVisible="false"
+
+
+>
+    <padding>
+        <Insets top="30" left="40" />
+    </padding>
+    <Label text="Add/Modify Part" GridPane.columnIndex="0" GridPane.rowIndex="0">
+        <font>
+            <Font name="Calibri bold"/>
+        </font>
+    </Label>
+    <HBox GridPane.rowIndex="0" GridPane.columnIndex="1" alignment="BASELINE_LEFT">
+        <RadioButton fx:id="inHouse" selected="true">
+            <toggleGroup>
+                <ToggleGroup  fx:id="partType"/>
+            </toggleGroup>
+        </RadioButton>
+        <Label text="In-House">
+            <padding>
+                <Insets left="5"/>
+            </padding>
+            <font>
+                <Font name="Calibri"/>
+            </font>
+        </Label>
+    </HBox>
+    <HBox GridPane.rowIndex="0"
+          GridPane.columnIndex="2"
+          alignment="BASELINE_LEFT">
+        <RadioButton fx:id="outsourced" >
+            <toggleGroup>
+                <fx:reference  source="partType"/>
+            </toggleGroup>
+        </RadioButton>
+        <Label text="Outsourced">
+            <padding>
+                <Insets left="5"/>
+            </padding>
+            <font>
+                <Font name="Calibri"/>
+            </font>
+        </Label>
+    </HBox>
+    <Label text="ID"
+           GridPane.columnIndex="0"
+           GridPane.rowIndex="3">
+        <padding>
+            <Insets left="10"/>
+        </padding>
+        <font>
+            <Font name="Calibri"/>
+        </font>
+    </Label>
+    <Label text="Name"
+           GridPane.columnIndex="0"
+           GridPane.rowIndex="4">
+        <padding>
+            <Insets left="10"/>
+        </padding>
+        <font>
+            <Font name="Calibri"/>
+        </font>
+    </Label>
+    <Label text="Inventory"
+           GridPane.columnIndex="0"
+           GridPane.rowIndex="5">
+        <padding>
+            <Insets left="10"/>
+        </padding>
+        <font>
+            <Font name="Calibri"/>
+        </font>
+    </Label>
+    <Label text="Price/Cost"
+           GridPane.columnIndex="0"
+           GridPane.rowIndex="6">
+        <padding>
+            <Insets left="10"/>
+        </padding>
+        <font>
+            <Font name="Calibri"/>
+        </font>
+    </Label>
+    <Label text="Max"
+           GridPane.columnIndex="0"
+           GridPane.rowIndex="7">
+        <padding>
+            <Insets left="10"/>
+        </padding>
+        <font>
+            <Font name="Calibri"/>
+        </font>
+    </Label>
+    <Label text="Machine ID"
+           fx:id="varLabel"
+           GridPane.columnIndex="0"
+           GridPane.rowIndex="8">
+        <padding>
+            <Insets left="10"/>
+        </padding>
+        <font>
+            <Font name="Calibri"/>
+        </font>
+    </Label>
+    <TextField fx:id="partID"
+               promptText="Part ID"
+               GridPane.columnIndex="1"
+               GridPane.rowIndex="3"
+               prefWidth="115"
+               alignment="BASELINE_LEFT"
+    />
+    <TextField fx:id="partName"
+               promptText="Part ID"
+               GridPane.columnIndex="1"
+               GridPane.rowIndex="4"
+               prefWidth="115"
+               alignment="BASELINE_LEFT"
+    />
+    <TextField fx:id="inventoryCount"
+               promptText="Part ID"
+               GridPane.columnIndex="1"
+               GridPane.rowIndex="5"
+               prefWidth="115"
+               alignment="BASELINE_LEFT"
+    />
+    <TextField fx:id="partPrice"
+               promptText="Part ID"
+               GridPane.columnIndex="1"
+               GridPane.rowIndex="6"
+               prefWidth="115"
+               alignment="BASELINE_LEFT"
+    />
+    <TextField fx:id="max"
+               promptText="Part ID"
+               GridPane.columnIndex="1"
+               GridPane.rowIndex="7"
+               prefWidth="115"
+               alignment="BASELINE_LEFT"
+    />
+    <TextField fx:id="variableTextField"
+               promptText="Part ID"
+               GridPane.columnIndex="1"
+               GridPane.rowIndex="8"
+               prefWidth="115"
+               alignment="BASELINE_LEFT"
+    />
+    <Label text="Minimum"
+           GridPane.columnIndex="0"
+           GridPane.rowIndex="7">
+        <padding>
+            <Insets left="10"/>
+        </padding>
+        <font>
+            <Font name="Calibri"/>
+        </font>
+    </Label>
+    <TextField fx:id="min"
+               promptText="Part ID"
+               GridPane.columnIndex="1"
+               GridPane.rowIndex="7"
+               prefWidth="115"
+               alignment="BASELINE_LEFT"
+    />
+
+
+</GridPane>
