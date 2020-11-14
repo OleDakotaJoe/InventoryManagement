@@ -1,4 +1,4 @@
-package com.inventory.dataModel;
+package com.inventory.data.datamodel;
 
 public class InHouse extends Part {
     private int machineId;

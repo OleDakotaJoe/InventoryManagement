@@ -4,7 +4,9 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
-<GridPane xmlns="http://javafx.com/javafx"
+<GridPane fx:controller="com.inventory.modifypart.AddModifyPartController"
+          fx:id="main"
+          xmlns="http://javafx.com/javafx"
           xmlns:fx="http://javafx.com/fxml"
           prefHeight="525.0" prefWidth="465.0"
           alignment="BASELINE_LEFT"
@@ -15,13 +17,16 @@
     <padding>
         <Insets top="30" left="40" />
     </padding>
-    <Label text="Add/Modify Part" GridPane.columnIndex="0" GridPane.rowIndex="0">
+    <Label fx:id="addModLabel"
+           text="Add/Modify Part"
+           GridPane.columnIndex="0"
+           GridPane.rowIndex="0">
         <font>
             <Font name="Calibri bold"/>
         </font>
     </Label>
     <HBox GridPane.rowIndex="0" GridPane.columnIndex="1" alignment="BASELINE_LEFT">
-        <RadioButton fx:id="inHouse" selected="true">
+        <RadioButton fx:id="inHouse" selected="true" onAction="#changeVarLabel">
             <toggleGroup>
                 <ToggleGroup  fx:id="partType"/>
             </toggleGroup>
@@ -38,7 +43,7 @@
     <HBox GridPane.rowIndex="0"
           GridPane.columnIndex="2"
           alignment="BASELINE_LEFT">
-        <RadioButton fx:id="outsourced" >
+        <RadioButton fx:id="outsourced" onAction="#changeVarLabel" >
             <toggleGroup>
                 <fx:reference  source="partType"/>
             </toggleGroup>
@@ -114,6 +119,7 @@
         </font>
     </Label>
     <TextField fx:id="partId"
+               onKeyReleased="#validator"
                promptText="Part ID..."
                GridPane.columnIndex="1"
                GridPane.rowIndex="3"
@@ -121,6 +127,7 @@
                alignment="BASELINE_LEFT"
     />
     <TextField fx:id="partName"
+               onKeyReleased="#validator"
                promptText="Part Name..."
                GridPane.columnIndex="1"
                GridPane.rowIndex="4"
@@ -128,6 +135,7 @@
                alignment="BASELINE_LEFT"
     />
     <TextField fx:id="inventoryCount"
+               onKeyReleased="#validator"
                promptText="Inventory Count..."
                GridPane.columnIndex="1"
                GridPane.rowIndex="5"
@@ -135,6 +143,7 @@
                alignment="BASELINE_LEFT"
     />
     <TextField fx:id="partPrice"
+               onKeyReleased="#validator"
                promptText="Price..."
                GridPane.columnIndex="1"
                GridPane.rowIndex="6"
@@ -142,20 +151,13 @@
                alignment="BASELINE_LEFT"
     />
     <TextField fx:id="maximumInventory"
+               onKeyReleased="#validator"
                promptText="Max Inventory..."
                GridPane.columnIndex="1"
                GridPane.rowIndex="7"
                prefWidth="115"
                alignment="BASELINE_LEFT"
     />
-    <TextField fx:id="variableTextField"
-               promptText="Machine ID/Company Name..."
-               GridPane.columnIndex="1"
-               GridPane.rowIndex="8"
-               prefWidth="115"
-               alignment="BASELINE_LEFT"
-    />
-
     <GridPane GridPane.columnIndex="2"
               GridPane.rowIndex="7"
               alignment="BASELINE_LEFT"
@@ -173,6 +175,7 @@
             </font>
         </Label>
         <TextField fx:id="minimumInventory"
+                   onKeyReleased="#validator"
                    promptText="Minimum Inventory"
                    GridPane.rowIndex="0"
                    GridPane.columnIndex="1"
@@ -180,6 +183,17 @@
                    alignment="BASELINE_LEFT"
         />
     </GridPane>
+    <TextField fx:id="variableTextField"
+               onKeyReleased="#validator"
+               promptText="Machine ID/Company Name..."
+               GridPane.columnIndex="1"
+               GridPane.rowIndex="8"
+               prefWidth="115"
+               alignment="BASELINE_LEFT"
+
+    />
+
+
 
     <GridPane GridPane.columnIndex="2"
               GridPane.rowIndex="9"
@@ -193,6 +207,7 @@
                 GridPane.columnIndex="0"
         />
         <Button fx:id="cancelButton"
+                onAction="#exit"
                 text="Cancel"
                 cancelButton="true"
                 GridPane.rowIndex="0"

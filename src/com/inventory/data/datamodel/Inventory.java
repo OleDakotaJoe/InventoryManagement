@@ -1,10 +1,11 @@
-package com.inventory.dataModel;
+package com.inventory.data.datamodel;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 public class Inventory {
-    private ObservableList<Part> allParts;
-    private ObservableList<Product> allProducts;
+    private ObservableList<Part> allParts = FXCollections.observableArrayList();
+    private ObservableList<Product> allProducts = FXCollections.observableArrayList();
 
     public void addPart(Part newPart) {
         this.allParts.add(newPart);

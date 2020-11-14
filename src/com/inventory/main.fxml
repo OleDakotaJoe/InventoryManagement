@@ -3,7 +3,6 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
 <GridPane fx:controller="com.inventory.Controller"
-          fx:id="main"
           xmlns:fx="http://javafx.com/fxml"
           alignment="center"
           hgap="20"
@@ -38,7 +37,8 @@
                 </AnchorPane>
             </top>
             <center>
-                <TableView GridPane.columnIndex="0" GridPane.rowIndex="0" >
+                <TableView fx:id="partTable"
+                        GridPane.columnIndex="0" GridPane.rowIndex="0" >
                     <columns>
                         <TableColumn text="Part ID">
 
@@ -67,7 +67,7 @@
                         />
                         <Button fx:id="modifyPart"
                                 onAction="#openAddPartMenu"
-                                text="Modfy"
+                                text="Modify"
                                 GridPane.rowIndex="0"
                                 GridPane.columnIndex="3"
                         />

@@ -1,4 +1,4 @@
-package com.inventory.dataModel;
+package com.inventory.data.datamodel;
 
 public class Outsourced extends Part {
     private String companyName;

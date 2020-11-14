@@ -1,10 +1,6 @@
-package com.inventory.dataModel;
+package com.inventory.data.datamodel;
 
-
-import javafx.collections.ObservableList;
-
-public class Product<T> {
-    private ObservableList<Part> associatedParts;
+public abstract class Part {
     private int id;
     private String name;
     private double price;
@@ -12,7 +8,7 @@ public class Product<T> {
     private int min;
     private int max;
 
-    public Product(int id, String name, double price, int stock, int min, int max) {
+    public Part(int id, String name, double price, int stock, int min, int max) {
         this.id = id;
         this.name = name;
         this.price = price;
@@ -20,7 +16,6 @@ public class Product<T> {
         this.min = min;
         this.max = max;
     }
-
 
     public int getId() {
         return id;
@@ -68,19 +63,5 @@ public class Product<T> {
 
     public void setMax(int max) {
         this.max = max;
-    }
-
-
-    public void addAssociatePart(Part part) {
-        associatedParts.add(part);
-    }
-
-    public boolean deleteAssociatedParts(Part selectedAssociatedPart) {
-        associatedParts.remove(selectedAssociatedPart);
-        return true;
-    }
-
-    public ObservableList<Part> getAllAssociatedParts() {
-        return associatedParts;
     }
 }

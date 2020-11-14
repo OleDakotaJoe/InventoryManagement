@@ -1,15 +1,26 @@
 package com.inventory;
 
-import com.inventory.addModifyPart.AddModifyPartController;
-import com.inventory.addModifyProduct.AddModifyProductController;
+import com.inventory.data.datamodel.Inventory;
+import com.inventory.data.datamodel.UserData;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.layout.GridPane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.io.IOException;
+
 public class Controller {
+
+    private static Inventory inventory;
+
+    public static Inventory getInventory() {
+        return inventory;
+    }
     @FXML
     private Button addPart;
 
@@ -25,45 +36,47 @@ public class Controller {
     @FXML
     private Button exitButton;
 
-    @FXML
-    private GridPane main;
 
     @FXML
     private void initialize() {
         Node node = addPart;
-
         node.requestFocus();
+        inventory = new Inventory();
     }
+
 
     public void openAddPartMenu(ActionEvent event) {
 
+        if (event.getSource().equals(addPart)) UserData.setUserData("Add Part");
+        if (event.getSource().equals(modifyPart)) UserData.setUserData("Modify Part");
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/inventory/modifypart/addmodifypart.fxml"));
+            Parent root1 = fxmlLoader.load();
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setScene(new Scene(root1));
 
-        if (event.getSource().equals(addPart)) {
-            AddModifyPartController window = new AddModifyPartController("Add Part");
-        } else if (event.getSource().equals(modifyPart)){
-            AddModifyPartController window = new AddModifyPartController("Modify Part");
-        } else {
-            try {
-                throw new Exception("Problem with code");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            stage.show();
+        } catch (
+                IOException e) {
+            e.printStackTrace();
         }
     }
 
     public void openAddProductMenu(ActionEvent event) {
 
-        if (event.getSource().equals(addProduct)) {
-            AddModifyProductController window = new AddModifyProductController("Add Product");
-        } else if (event.getSource().equals(modifyProduct)){
-            AddModifyProductController window = new AddModifyProductController("Modify Product");
-        } else {
-            try {
-                throw new Exception("Problem with code");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/inventory/modifyproduct/addmodifyproduct.fxml"));
+            Parent root1 = fxmlLoader.load();
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setScene(new Scene(root1));
+            stage.show();
+        } catch (
+                IOException e) {
+            e.printStackTrace();
         }
+
     }
     @FXML
     public void exit(){
@@ -71,8 +84,5 @@ public class Controller {
         stage.close();
 
     }
-
-
-
 
 }
