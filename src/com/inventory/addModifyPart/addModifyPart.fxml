@@ -11,7 +11,6 @@
           hgap="20" vgap="10"
           gridLinesVisible="false"
 
-
 >
     <padding>
         <Insets top="30" left="40" />
@@ -114,65 +113,90 @@
             <Font name="Calibri"/>
         </font>
     </Label>
-    <TextField fx:id="partID"
-               promptText="Part ID"
+    <TextField fx:id="partId"
+               promptText="Part ID..."
                GridPane.columnIndex="1"
                GridPane.rowIndex="3"
                prefWidth="115"
                alignment="BASELINE_LEFT"
     />
     <TextField fx:id="partName"
-               promptText="Part ID"
+               promptText="Part Name..."
                GridPane.columnIndex="1"
                GridPane.rowIndex="4"
                prefWidth="115"
                alignment="BASELINE_LEFT"
     />
     <TextField fx:id="inventoryCount"
-               promptText="Part ID"
+               promptText="Inventory Count..."
                GridPane.columnIndex="1"
                GridPane.rowIndex="5"
                prefWidth="115"
                alignment="BASELINE_LEFT"
     />
     <TextField fx:id="partPrice"
-               promptText="Part ID"
+               promptText="Price..."
                GridPane.columnIndex="1"
                GridPane.rowIndex="6"
                prefWidth="115"
                alignment="BASELINE_LEFT"
     />
-    <TextField fx:id="max"
-               promptText="Part ID"
+    <TextField fx:id="maximumInventory"
+               promptText="Max Inventory..."
                GridPane.columnIndex="1"
                GridPane.rowIndex="7"
                prefWidth="115"
                alignment="BASELINE_LEFT"
     />
     <TextField fx:id="variableTextField"
-               promptText="Part ID"
+               promptText="Machine ID/Company Name..."
                GridPane.columnIndex="1"
                GridPane.rowIndex="8"
                prefWidth="115"
                alignment="BASELINE_LEFT"
     />
-    <Label text="Minimum"
-           GridPane.columnIndex="0"
-           GridPane.rowIndex="7">
-        <padding>
-            <Insets left="10"/>
-        </padding>
-        <font>
-            <Font name="Calibri"/>
-        </font>
-    </Label>
-    <TextField fx:id="min"
-               promptText="Part ID"
-               GridPane.columnIndex="1"
-               GridPane.rowIndex="7"
-               prefWidth="115"
-               alignment="BASELINE_LEFT"
-    />
 
+    <GridPane GridPane.columnIndex="2"
+              GridPane.rowIndex="7"
+              alignment="BASELINE_LEFT"
+              hgap="15"
+    >
+        <Label text="Min"
+               GridPane.rowIndex="0"
+               GridPane.columnIndex="0"
+        >
+            <padding>
+                <Insets left="10"/>
+            </padding>
+            <font>
+                <Font name="Calibri"/>
+            </font>
+        </Label>
+        <TextField fx:id="minimumInventory"
+                   promptText="Minimum Inventory"
+                   GridPane.rowIndex="0"
+                   GridPane.columnIndex="1"
+                   prefWidth="115"
+                   alignment="BASELINE_LEFT"
+        />
+    </GridPane>
 
+    <GridPane GridPane.columnIndex="2"
+              GridPane.rowIndex="9"
+              alignment="BASELINE_LEFT"
+              hgap="10"
+    >
+        <Button fx:id="saveButton"
+                onAction="#addPart"
+                text="Save"
+                GridPane.rowIndex="0"
+                GridPane.columnIndex="0"
+        />
+        <Button fx:id="cancelButton"
+                text="Cancel"
+                cancelButton="true"
+                GridPane.rowIndex="0"
+                GridPane.columnIndex="1"
+        />
+    </GridPane>
 </GridPane>
