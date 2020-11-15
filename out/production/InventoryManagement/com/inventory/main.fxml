@@ -40,16 +40,16 @@
                 <TableView fx:id="partTable"
                         GridPane.columnIndex="0" GridPane.rowIndex="0" >
                     <columns>
-                        <TableColumn text="Part ID">
+                        <TableColumn fx:id="partId" text="Part ID">
 
                         </TableColumn>
-                        <TableColumn text="Part Name">
+                        <TableColumn fx:id="partName" text="Part Name">
 
                         </TableColumn>
-                        <TableColumn text="Inventory Level">
+                        <TableColumn fx:id="inventoryLevel" text="Inventory Level">
 
                         </TableColumn>
-                        <TableColumn text="Price/Cost per Unit">
+                        <TableColumn fx:id="price" text="Price/Cost per Unit">
 
                         </TableColumn>
                     </columns>

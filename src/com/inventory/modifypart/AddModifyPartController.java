@@ -1,17 +1,14 @@
 package com.inventory.modifypart;
 
 import com.inventory.Controller;
-import com.inventory.data.datamodel.InHouse;
-import com.inventory.data.datamodel.Outsourced;
-import com.inventory.data.datamodel.UserData;
+import com.inventory.data.datamodel.*;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+
+import java.io.IOException;
 
 public class AddModifyPartController {
 
@@ -60,7 +57,8 @@ public class AddModifyPartController {
     @FXML
     public void initialize() {
      changeVarLabel();
-     addModLabel.setText(UserData.getUserData());
+     addModLabel.setText(PassableData.getTitle());
+     if(PassableData.getIsModify() && PassableData.getPartData()!= null) populateForm();
     }
 
     public void changeVarLabel() {
@@ -77,6 +75,30 @@ public class AddModifyPartController {
 
     }
 
+    // TODO: 11/14/2020 Implement functionality to add variableTextField property
+    public void populateForm() {
+        Part selectedPart = (Part) PassableData.getPartData();
+        partPrice.setText(String.valueOf(selectedPart.getPrice()));
+        partName.setText(selectedPart.getName());
+        inventoryCount.setText(String.valueOf(selectedPart.getStock()));
+        partId.setText(String.valueOf(selectedPart.getId()));
+        maximumInventory.setText(String.valueOf(selectedPart.getMax()));
+        minimumInventory.setText(String.valueOf(selectedPart.getMin()));
+
+        if (PassableData.isOutsourced()) {
+            Outsourced part =(Outsourced) selectedPart;
+            variableTextField.setText(part.getCompanyName());
+            outsourced.setSelected(true);
+
+        } else if (!PassableData.isOutsourced()) {
+            InHouse part = (InHouse) selectedPart;
+            variableTextField.setText(String.valueOf(part.getMachineId()));
+            inHouse.setSelected(true);
+        }
+
+
+    }
+
 
 
     public void addPart() {
@@ -86,7 +108,9 @@ public class AddModifyPartController {
                 && !inventoryCount.getText().equals("")
                 && !partId.getText().equals("")
                 && !maximumInventory.getText().equals("")
-                && !minimumInventory.getText().equals("");
+                && !minimumInventory.getText().equals("")
+                && !variableTextField.getText().equals("")
+                && (Integer.parseInt(maximumInventory.getText()) > Integer.parseInt(minimumInventory.getText()));
         if(isValid) {
             double price = Double.parseDouble(partPrice.getText());
             String name = partName.getText();
@@ -104,9 +128,24 @@ public class AddModifyPartController {
                     Outsourced newPart = new Outsourced(id,name,price,stock,minimum,maximum,variableText);
                     Controller.getInventory().addPart(newPart);
                 }
+// TODO: 11/14/2020 add functionality to initialize an alert window for displaying error
 
-                exit();
+            try {
+                InventoryData.getInstance().storeTodoItems();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
+                exit();
+            } else  {
+            Alert errorMessage = new Alert(Alert.AlertType.INFORMATION);
+            errorMessage.setTitle("Missing Information");
+            errorMessage.setHeaderText("You didn't enter required information!");
+            errorMessage.setContentText("All fields are required! \nYour part has not been saved. \nPress \"OK\" and try again.");
+
+
+
+            errorMessage.show();
+        }
     }
 
 
@@ -219,6 +258,6 @@ public class AddModifyPartController {
     public void exit(){
         Stage stage = (Stage) cancelButton.getScene().getWindow();
         stage.close();
-
+        PassableData.setIsModify(false);
     }
 }
