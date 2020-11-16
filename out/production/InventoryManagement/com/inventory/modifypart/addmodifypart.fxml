@@ -4,6 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
+<?import com.inventory.controls.TextFieldLimited?>
 <GridPane fx:controller="com.inventory.modifypart.AddModifyPartController"
           fx:id="main"
           xmlns="http://javafx.com/javafx"
@@ -118,15 +119,14 @@
             <Font name="Calibri"/>
         </font>
     </Label>
-    <TextField fx:id="partId"
-               onKeyReleased="#validator"
-               promptText="Part ID..."
+    <TextFieldLimited fx:id="partId"
+               disable="true"
                GridPane.columnIndex="1"
                GridPane.rowIndex="3"
                prefWidth="115"
                alignment="BASELINE_LEFT"
     />
-    <TextField fx:id="partName"
+    <TextFieldLimited fx:id="partName"
                onKeyReleased="#validator"
                promptText="Part Name..."
                GridPane.columnIndex="1"
@@ -134,7 +134,7 @@
                prefWidth="115"
                alignment="BASELINE_LEFT"
     />
-    <TextField fx:id="inventoryCount"
+    <TextFieldLimited fx:id="inventoryCount"
                onKeyReleased="#validator"
                promptText="Inventory Count..."
                GridPane.columnIndex="1"
@@ -142,7 +142,7 @@
                prefWidth="115"
                alignment="BASELINE_LEFT"
     />
-    <TextField fx:id="partPrice"
+    <TextFieldLimited fx:id="partPrice"
                onKeyReleased="#validator"
                promptText="Price..."
                GridPane.columnIndex="1"
@@ -150,7 +150,7 @@
                prefWidth="115"
                alignment="BASELINE_LEFT"
     />
-    <TextField fx:id="maximumInventory"
+    <TextFieldLimited fx:id="maximumInventory"
                onKeyReleased="#validator"
                promptText="Max Inventory..."
                GridPane.columnIndex="1"
@@ -174,7 +174,7 @@
                 <Font name="Calibri"/>
             </font>
         </Label>
-        <TextField fx:id="minimumInventory"
+        <TextFieldLimited fx:id="minimumInventory"
                    onKeyReleased="#validator"
                    promptText="Minimum Inventory"
                    GridPane.rowIndex="0"
@@ -183,7 +183,7 @@
                    alignment="BASELINE_LEFT"
         />
     </GridPane>
-    <TextField fx:id="variableTextField"
+    <TextFieldLimited fx:id="variableTextField"
                onKeyReleased="#validator"
                promptText="Machine ID/Company Name..."
                GridPane.columnIndex="1"

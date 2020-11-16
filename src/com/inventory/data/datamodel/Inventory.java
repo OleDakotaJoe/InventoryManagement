@@ -65,11 +65,11 @@ public class Inventory {
     }
 
     public void updatePart(int index, Part selectedPart) {
-        //Need to still code this method
+        this.getAllParts().set(index, selectedPart);
     }
 
     public void updateProduct(int index, Product newProduct) {
-        //Need to still code this method
+        this.getAllProducts().set(index,newProduct);
     }
 
     public boolean deletePart(Part selectedPart) {
@@ -78,6 +78,7 @@ public class Inventory {
             if (part == selectedPart) {
                 allParts.remove(part);
                 isRemoved = true;
+                break;
             } else {
                 isRemoved = false;
                 continue;
@@ -93,6 +94,7 @@ public class Inventory {
             if (product == selectedProduct) {
                 allParts.remove(product);
                 isRemoved = true;
+                break;
             } else {
                 isRemoved = false;
                 continue;

@@ -14,6 +14,7 @@ public class InventoryData {
     private static InventoryData instance = new InventoryData();
     private static String productsFileName = "ProductInventory.txt";
     private static String partsFileName = "PartsInventory.txt";
+    private static String idIndexFileName = "idIndex.txt";
 
     public static InventoryData getInstance() {
         return instance;
@@ -27,15 +28,15 @@ public class InventoryData {
 
         try {
             while ((input = br.readLine()) != null) {
-                String[] itemPieces = input.split("\t");
-                String id = itemPieces[0];
-                String name = itemPieces[1];
-                String price = itemPieces[2];
-                String stock = itemPieces[3];
-                String min = itemPieces[4];
-                String max = itemPieces[5];
-                String temp = itemPieces[6];
-                String type = itemPieces[7];
+                String[] itemPieces = input.split(",\"");
+                String id = itemPieces[0].replaceAll("\"","");
+                String name = itemPieces[1].replaceAll("\"","");
+                String price = itemPieces[2].replaceAll("\"","");
+                String stock = itemPieces[3].replaceAll("\"","");
+                String min = itemPieces[4].replaceAll("\"","");
+                String max = itemPieces[5].replaceAll("\"","");
+                String temp = itemPieces[6].replaceAll("\"","");
+                String type = itemPieces[7].replaceAll("\"","");
                 Part part = null;
                 if (type=="InHouse") {
                     part = new InHouse(Integer.parseInt(id),name,Double.parseDouble(price),Integer.parseInt(stock),Integer.parseInt(min),Integer.parseInt(max),Integer.parseInt(temp));
@@ -53,7 +54,7 @@ public class InventoryData {
         }
     }
 
-    public void storeTodoItems() throws IOException {
+    public void storePartInventory() throws IOException {
         Path  path = Paths.get(partsFileName);
         BufferedWriter bw = Files.newBufferedWriter(path);
 
@@ -64,7 +65,7 @@ public class InventoryData {
                 boolean isInHouse = part.getClass() == InHouse.class;
                 String type = isInHouse ? "InHouse" : "Outsourced";
                 Object temp = isInHouse ? ((InHouse) part).getMachineId() : ((Outsourced) part).getCompanyName();
-                bw.write(String.format("%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s",
+                bw.write(String.format("\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\"",
                         part.getId(),
                         part.getName(),
                         part.getPrice(),
@@ -81,4 +82,35 @@ public class InventoryData {
             }
         }
     }
+
+    public void storeIdIndex() throws IOException {
+        Path path = Paths.get(idIndexFileName);
+        BufferedWriter bw = Files.newBufferedWriter(path);
+
+        bw.write(String.valueOf(Controller.getIdCounter()));
+        bw.newLine();
+        bw.close();
+    }
+
+    public void readIdIndex() throws IOException {
+        Path path = Paths.get(idIndexFileName);
+        BufferedReader br = Files.newBufferedReader(path);
+
+        String input;
+
+        try {
+            if ((input = br.readLine()) != null) {
+                Controller.setIdCounter(Integer.parseInt(input));
+            }
+        } finally {
+            if (br != null) br.close();
+        }
+    }
+
+
 }
+
+
+
+
+

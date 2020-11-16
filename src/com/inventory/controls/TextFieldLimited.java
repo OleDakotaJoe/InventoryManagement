@@ -26,7 +26,7 @@ public class TextFieldLimited extends TextField {
         if (text.equals("")) {
             super.replaceSelection(text);
         } else if (getText().length() < maxLength) {
-            // Add characters, but don't exceed maxlength.
+            // Add characters, but don't exceed maxLength.
             if (text.length() > maxLength - getText().length()) {
                 text = text.substring(0, maxLength- getText().length());
             }

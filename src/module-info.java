@@ -6,4 +6,5 @@ module InventoryManagement {
     exports com.inventory.data.datamodel;
     exports com.inventory.modifypart;
     exports com.inventory.modifyproduct;
+    exports com.inventory.controls;
 }

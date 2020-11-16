@@ -1,10 +1,13 @@
 package com.inventory;
 
+import com.inventory.data.datamodel.InventoryData;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+
+import java.io.IOException;
 
 public class Main extends Application {
 
@@ -15,12 +18,20 @@ public class Main extends Application {
         primaryStage.setScene(new Scene(root, 875, 325));
         root.requestFocus();
         primaryStage.show();
-
     }
 
 
     public static void main(String[] args) {
         launch(args);
-
+    }
+    @Override
+    public void stop() throws Exception {
+        try {
+            InventoryData.getInstance().storePartInventory();
+            InventoryData.getInstance().storeIdIndex();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        super.stop();
     }
 }

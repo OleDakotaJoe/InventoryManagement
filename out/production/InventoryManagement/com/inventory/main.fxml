@@ -1,3 +1,4 @@
+<?import com.inventory.controls.TextFieldLimited?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
@@ -33,12 +34,17 @@
                             <Font name="Calibri bold" size="12"/>
                         </font>
                     </Label>
-                    <TextField promptText="Search by ID or Name"  AnchorPane.rightAnchor="20"/>
+                    <TextFieldLimited fx:id="searchParts"
+                                      onKeyReleased="#searchParts"
+                                      promptText="Search by ID or Name"
+                                      AnchorPane.rightAnchor="20"
+                    />
                 </AnchorPane>
             </top>
             <center>
                 <TableView fx:id="partTable"
-                        GridPane.columnIndex="0" GridPane.rowIndex="0" >
+                           GridPane.columnIndex="0"
+                           GridPane.rowIndex="0" >
                     <columns>
                         <TableColumn fx:id="partId" text="Part ID">
 
@@ -46,10 +52,10 @@
                         <TableColumn fx:id="partName" text="Part Name">
 
                         </TableColumn>
-                        <TableColumn fx:id="inventoryLevel" text="Inventory Level">
+                        <TableColumn fx:id="partStock" text="Inventory Level">
 
                         </TableColumn>
-                        <TableColumn fx:id="price" text="Price/Cost per Unit">
+                        <TableColumn fx:id="partPrice" text="Price/Cost per Unit">
 
                         </TableColumn>
                     </columns>
@@ -72,6 +78,7 @@
                                 GridPane.columnIndex="3"
                         />
                         <Button fx:id="deletePart"
+                                onAction="#deletePart"
                                 text="Delete"
                                 GridPane.rowIndex="0"
                                 GridPane.columnIndex="6"
@@ -97,22 +104,28 @@
                             <Font name="Calibri bold" size="12"/>
                         </font>
                     </Label>
-                    <TextField promptText="Search by ID or Name" AnchorPane.rightAnchor="20"/>
+                    <TextFieldLimited fx:id="searchProducts"
+                                      onKeyReleased="#searchProducts"
+                                      promptText="Search by ID or Name"
+                                      AnchorPane.rightAnchor="20"/>
                 </AnchorPane>
             </top>
             <center>
-                <TableView GridPane.columnIndex="0" GridPane.rowIndex="0" >
+                <TableView fx:id="productTable"
+                           GridPane.columnIndex="0"
+                           GridPane.rowIndex="0"
+                >
                     <columns>
-                        <TableColumn text="Product ID">
+                        <TableColumn fx:id="productId" text="Product ID">
 
                         </TableColumn>
-                        <TableColumn text="Product Name">
+                        <TableColumn fx:id="productName" text="Product Name">
 
                         </TableColumn>
-                        <TableColumn text="Inventory Level">
+                        <TableColumn fx:id="productStock" text="Inventory Level">
 
                         </TableColumn>
-                        <TableColumn text="Price/Cost per Unit">
+                        <TableColumn fx:id="productPrice" text="Price/Cost per Unit">
 
                         </TableColumn>
                     </columns>
