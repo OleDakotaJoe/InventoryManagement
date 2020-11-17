@@ -1,15 +1,159 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
+<?import com.inventory.controls.*?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-
-<AnchorPane fx:controller="com.inventory.modifyproduct.AddModifyProductController"
+<?import javafx.scene.shape.Box?>
+<?import javafx.scene.text.Font?>
+<BorderPane fx:controller="com.inventory.modifyproduct.AddModifyProductController"
             xmlns="http://javafx.com/javafx"
-            prefHeight="400.0" prefWidth="600.0"
+            prefHeight="550.0" prefWidth="825.0"
             xmlns:fx="http://javafx.com/fxml">
-    <GridPane></GridPane>
+    <padding>
+        <Insets topRightBottomLeft="30"/>
+    </padding>
+    <center>
+        <BorderPane style="-fx-border-color: black; -fx-border-width: 1; -fx-padding: 10; -fx-border-radius: 10;">
+            <left>
+                <GridPane alignment="BASELINE_LEFT">
+                    <Label fx:id="addModLabel" GridPane.columnIndex="0" text="Add/Modify Product">
+                        <padding>
+                            <Insets top="30" left="30"/>
+                        </padding>
+                        <font>
+                            <Font name="Calibri bold" size="18"/>
+                        </font>
+                    </Label>
 
-</AnchorPane>
+                    <GridPane GridPane.rowIndex="1"
+                              GridPane.columnIndex="0"
+                              alignment="BASELINE_LEFT"
+                              hgap="20" vgap="10"
+                    >
+                        <padding>
+                            <Insets top="60" left="60"/>
+                        </padding>
+                        <Label text="ID" GridPane.rowIndex="0" GridPane.columnIndex="0" />
+                        <Label text="Name" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                        <Label text="Inv" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                        <Label text="Price"  GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+                        <Label text="Max"  GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+                        <TextFieldLimited fx:id="productId"
+                                          promptText="Auto Gen - Disabled"
+                                          GridPane.rowIndex="0"
+                                          GridPane.columnIndex="1"
+                                          maxWidth="150"
+                                          GridPane.columnSpan="2"
+                                          disable="true"
+                        />
+                        <TextFieldLimited fx:id="productName"
+                                          promptText="Part Name..."
+                                          maxLength="16"
+                                          GridPane.rowIndex="1"
+                                          GridPane.columnIndex="1"
+                                          maxWidth="150"
+                                          GridPane.columnSpan="2"
+                        />
+                        <TextFieldLimited fx:id="productStock"
+                                          promptText="Current Inventory..."
+                                          GridPane.rowIndex="2"
+                                          GridPane.columnIndex="1"
+                                          maxWidth="80"
+                        />
+                        <TextFieldLimited fx:id="productPrice"
+                                          promptText="Price..."
+                                          GridPane.rowIndex="3"
+                                          GridPane.columnIndex="1"
+                                          maxWidth="80"
+                        />
+                        <TextFieldLimited fx:id="maxStock"
+                                          promptText="Max Stock..."
+                                          GridPane.rowIndex="4"
+                                          GridPane.columnIndex="1"
+                                          maxWidth="80"
+                        />
+                        <HBox   GridPane.rowIndex="4" GridPane.columnIndex="2" alignment="CENTER">
+
+                            <Label text="Min" >
+                                <padding>
+                                    <Insets right="5"/>
+                                </padding>
+                            </Label>
+                            <TextFieldLimited fx:id="minStock"
+                                              promptText="Min Stock"
+                                              prefWidth="80"
+                            />
+                        </HBox>
+                    </GridPane>
+                </GridPane>
+            </left>
+            <right>
+                <VBox alignment="TOP_RIGHT">
+                    <padding>
+                        <Insets right="20" />
+                    </padding>
+                    <VBox alignment="CENTER_RIGHT">
+                        <padding>
+                            <Insets top="10" bottom="10"/>
+                        </padding>
+                        <TextFieldLimited promptText="Search by Part ID or Name"
+                                          fx:id="partSearch"
+                                          maxWidth="160"/>
+                    </VBox>
+                    <TableView fx:id="availablePartTable">
+                        <columns>
+                            <TableColumn fx:id="availablePartId" text="Part ID" />
+                            <TableColumn fx:id="availablePartName" text="Part Name"/>
+                            <TableColumn fx:id="availablePartStock" text="Inventory Level"/>
+                            <TableColumn fx:id="availablePartPrice" text="Price/Cost per Unit"/>
+                        </columns>
+                    </TableView>
+                    <VBox alignment="CENTER_RIGHT">
+                        <padding>
+                            <Insets  top="10" bottom="10" right="50"/>
+                        </padding>
+                        <Button fx:id="addPartButton" text="Add" >
+
+                        </Button>
+                    </VBox>
+                    <TableView fx:id="associatedPartTable">
+                        <columns>
+                            <TableColumn fx:id="associatedPartId" text="Part ID" />
+                            <TableColumn fx:id="associatedPartName" text="Part Name"/>
+                            <TableColumn fx:id="associatedPartStock" text="Inventory Level"/>
+                            <TableColumn fx:id="associatedPartPrice" text="Price/Cost per Unit"/>
+                        </columns>
+                    </TableView>
+                    <GridPane alignment="CENTER_RIGHT"
+                              hgap="50" vgap="10">
+                        <padding>
+                            <Insets top="10" right="30"/>
+                        </padding>
+                        <Button fx:id="removeAssociatedPart"
+                                GridPane.columnIndex="0"
+                                GridPane.columnSpan="2"
+                                GridPane.rowIndex="0"
+                                text="Remove Associated Part"
+                                alignment="CENTER">
+
+                        </Button>
+                        <Button fx:id="addProductAndSave"
+                                GridPane.columnIndex="0"
+                                GridPane.rowIndex="1"
+                                text="Save"
+                                defaultButton="true" >
+                        </Button>
+                        <Button fx:id="cancelButton"
+                                GridPane.columnIndex="1"
+                                GridPane.rowIndex="1"
+                                text="Cancel"
+                                cancelButton="true"
+                                alignment="CENTER">
+                        </Button>
+                    </GridPane>
+                </VBox>
+            </right>
+        </BorderPane>
+    </center>
+</BorderPane>

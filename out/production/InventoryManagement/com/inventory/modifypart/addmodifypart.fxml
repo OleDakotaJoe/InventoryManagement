@@ -12,8 +12,6 @@
           prefHeight="525.0" prefWidth="465.0"
           alignment="BASELINE_LEFT"
           hgap="20" vgap="10"
-          gridLinesVisible="false"
-
 >
     <padding>
         <Insets top="30" left="40" />
@@ -127,15 +125,16 @@
                alignment="BASELINE_LEFT"
     />
     <TextFieldLimited fx:id="partName"
-               onKeyReleased="#validator"
+               onKeyReleased="#textFieldValidator"
                promptText="Part Name..."
                GridPane.columnIndex="1"
                GridPane.rowIndex="4"
                prefWidth="115"
                alignment="BASELINE_LEFT"
+                      maxLength="26"
     />
     <TextFieldLimited fx:id="inventoryCount"
-               onKeyReleased="#validator"
+               onKeyReleased="#textFieldValidator"
                promptText="Inventory Count..."
                GridPane.columnIndex="1"
                GridPane.rowIndex="5"
@@ -143,7 +142,7 @@
                alignment="BASELINE_LEFT"
     />
     <TextFieldLimited fx:id="partPrice"
-               onKeyReleased="#validator"
+               onKeyReleased="#textFieldValidator"
                promptText="Price..."
                GridPane.columnIndex="1"
                GridPane.rowIndex="6"
@@ -151,7 +150,7 @@
                alignment="BASELINE_LEFT"
     />
     <TextFieldLimited fx:id="maximumInventory"
-               onKeyReleased="#validator"
+               onKeyReleased="#textFieldValidator"
                promptText="Max Inventory..."
                GridPane.columnIndex="1"
                GridPane.rowIndex="7"
@@ -175,7 +174,7 @@
             </font>
         </Label>
         <TextFieldLimited fx:id="minimumInventory"
-                   onKeyReleased="#validator"
+                   onKeyReleased="#textFieldValidator"
                    promptText="Minimum Inventory"
                    GridPane.rowIndex="0"
                    GridPane.columnIndex="1"
@@ -184,7 +183,7 @@
         />
     </GridPane>
     <TextFieldLimited fx:id="variableTextField"
-               onKeyReleased="#validator"
+               onKeyReleased="#textFieldValidator"
                promptText="Machine ID/Company Name..."
                GridPane.columnIndex="1"
                GridPane.rowIndex="8"

@@ -72,26 +72,23 @@ public class Controller {
 
 
     @FXML
-    private void initialize() {
+    private void initialize() throws IOException {
         Node node = addPart;
         node.requestFocus();
         displayTableView();
         try {
             InventoryData.getInstance().readIdIndex();
+            InventoryData.getInstance().loadPartInventory();
         } catch (IOException e) {
             e.printStackTrace();
+            //Creates files if files did not exist
+            InventoryData.getInstance().storeIdIndex();
+            InventoryData.getInstance().storePartInventory();
         }
     }
 
 
     private void displayTableView() {
-        try {
-            InventoryData.getInstance().loadPartInventory();
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.out.println("Disregard the error the first time you run the program.");
-        }
-
         partId.setCellValueFactory(new PropertyValueFactory<Part, Integer>("id"));
         partName.setCellValueFactory(new PropertyValueFactory<Part, String>("name"));
         partStock.setCellValueFactory(new PropertyValueFactory<Part, Integer>("stock"));
@@ -102,30 +99,40 @@ public class Controller {
 
     public void passPartToPassableData() {
         int index = partTable.getSelectionModel().getFocusedIndex();
-        Part part = inventory.getAllParts().get(index);
-        PassableData.setPartIndex(index);
-        PassableData.setPartData(part);
-        if(part.getClass().equals(Outsourced.class)) {
-            PassableData.setOutsourced(true);
-        } else  {
-            PassableData.setOutsourced(false);
+        if(index >=0) {
+            Part part = inventory.getAllParts().get(index);
+            PassableData.setPartIndex(index);
+            PassableData.setPartData(part);
+
+            if(part.getClass().equals(Outsourced.class)) {
+                PassableData.setOutsourced(true);
+            } else  {
+                PassableData.setOutsourced(false);
+            }
+        }
+
+
+    }
+
+    public void passProductToPassableData() {
+        int index = productTable.getSelectionModel().getFocusedIndex();
+        if(index >= 0) {
+            Product product = inventory.getAllProducts().get(index);
+            PassableData.setProductIndex(index);
+            PassableData.setProductData(product);
         }
 
     }
-    /*public void passProductToPassableData() {
-        ObservableList<Part> part = productTable.getSelectionModel().getSelectedItems();
-    }*/
 
 
     public void openAddPartMenu(ActionEvent event) {
 
         if (event.getSource().equals(addPart)) {
-            PassableData.setTitle("Add Part");
+            PassableData.setIsModifyPart(false);
         }
         if (event.getSource().equals(modifyPart)) {
-            PassableData.setTitle("Modify Part");
+            PassableData.setIsModifyPart(true);
             passPartToPassableData();
-            PassableData.setIsModify(true);
         }
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/inventory/modifypart/addmodifypart.fxml"));
@@ -142,13 +149,21 @@ public class Controller {
     }
 
     public void openAddProductMenu(ActionEvent event) {
-        // TODO: 11/14/2020 FINISH
+        if (event.getSource().equals(addProduct)) {
+            PassableData.setModifyProduct(false);
+        }
+
+        if(event.getSource().equals(modifyProduct)) {
+            PassableData.setModifyProduct(true);
+            passProductToPassableData();
+        }
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/inventory/modifyproduct/addmodifyproduct.fxml"));
             Parent root1 = fxmlLoader.load();
             Stage stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.setScene(new Scene(root1));
+            root1.requestFocus();
             stage.show();
         } catch (
                 IOException e) {
@@ -159,6 +174,8 @@ public class Controller {
 
 
     public void searchParts() {
+        // TODO: 11/16/2020 fix bug where when you search for something it searches based on upper or lower case
+        // TODO: 11/17/2020 make an onEnterKey action to search this onAction as well, and display popup saying no parts found
         try {
             if (searchParts.getText().matches("[\\p{Digit}]+")) {
             partTable.getSelectionModel().select(inventory.lookupPart(Integer.parseInt(searchParts.getText())));
@@ -174,6 +191,8 @@ public class Controller {
     }
 
     public void searchProducts() {
+
+        
         try {
             if (searchProducts.getText().matches("[\\p{Digit}]+")) {
                 productTable.getSelectionModel().select(inventory.lookupProduct(Integer.parseInt(searchProducts.getText())));
@@ -205,9 +224,22 @@ public class Controller {
 
     }
 
-/*    public void deleteProduct() {
+    public void deleteProduct() {
+        // TODO: 11/17/2020 implement functionality to check if product currently has any parts associated with it
+        Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmation.setTitle("Confirm Delete Product");
+        confirmation.setHeaderText("Are you sure you want to delete this product?");
+        confirmation.setContentText("This action cannot be undone! Only proceed if you are sure you want to delete this product!");
+        confirmation.showAndWait();
+        if (confirmation.getResult().getButtonData().isCancelButton()) return;
         inventory.deleteProduct(productTable.getSelectionModel().getSelectedItem());
-    }*/
+
+   /*     try {
+            InventoryData.getInstance().storePartInventory();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }*/
+    }
     @FXML
     public void exit(){
         try {

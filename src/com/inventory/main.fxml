@@ -46,18 +46,10 @@
                            GridPane.columnIndex="0"
                            GridPane.rowIndex="0" >
                     <columns>
-                        <TableColumn fx:id="partId" text="Part ID">
-
-                        </TableColumn>
-                        <TableColumn fx:id="partName" text="Part Name">
-
-                        </TableColumn>
-                        <TableColumn fx:id="partStock" text="Inventory Level">
-
-                        </TableColumn>
-                        <TableColumn fx:id="partPrice" text="Price/Cost per Unit">
-
-                        </TableColumn>
+                        <TableColumn fx:id="partId" text="Part ID" />
+                        <TableColumn fx:id="partName" text="Part Name"/>
+                        <TableColumn fx:id="partStock" text="Inventory Level"/>
+                        <TableColumn fx:id="partPrice" text="Price/Cost per Unit"/>
                     </columns>
                 </TableView>
             </center>
@@ -116,18 +108,10 @@
                            GridPane.rowIndex="0"
                 >
                     <columns>
-                        <TableColumn fx:id="productId" text="Product ID">
-
-                        </TableColumn>
-                        <TableColumn fx:id="productName" text="Product Name">
-
-                        </TableColumn>
-                        <TableColumn fx:id="productStock" text="Inventory Level">
-
-                        </TableColumn>
-                        <TableColumn fx:id="productPrice" text="Price/Cost per Unit">
-
-                        </TableColumn>
+                        <TableColumn fx:id="productId" text="Product ID"/>
+                        <TableColumn fx:id="productName" text="Product Name" />
+                        <TableColumn fx:id="productStock" text="Inventory Level" />
+                        <TableColumn fx:id="productPrice" text="Price/Cost per Unit" />
                     </columns>
                 </TableView>
             </center>

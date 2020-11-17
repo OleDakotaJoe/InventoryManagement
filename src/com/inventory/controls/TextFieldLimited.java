@@ -1,11 +1,18 @@
 package com.inventory.controls;
 
+import javafx.beans.NamedArg;
 import javafx.scene.control.TextField;
 
 public class TextFieldLimited extends TextField {
     private int maxLength;
-    public TextFieldLimited() {
-        this.maxLength = 10;
+
+    public TextFieldLimited(@NamedArg("maxLength") String maxLength) {
+        if (maxLength!=null){
+            this.maxLength = Integer.parseInt(maxLength);
+        } else {
+            this.maxLength = 10;
+        }
+
     }
     public void setMaxLength(int maxLength) {
         this.maxLength = maxLength;

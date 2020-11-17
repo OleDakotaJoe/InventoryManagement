@@ -4,12 +4,45 @@ public class PassableData {
 
     private static Part partData;
     private static int partIndex;
+    private static String partTitle;
+    private static boolean modifyPart;
+    private static boolean outsourced;
+
 
     private static Product productData;
+    private static String productTitle;
+    private static boolean modifyProduct;
+    private static int productIndex;
 
-    private static String title;
-    private static boolean isModify;
-    private static boolean outsourced;
+    public static String getProductTitle() {
+        return productTitle;
+    }
+
+    public static void setProductTitle(String productTitle) {
+        PassableData.productTitle = productTitle;
+    }
+
+    public static boolean isModifyProduct() {
+        return modifyProduct;
+    }
+
+    public static void setModifyProduct(boolean modifyProduct) {
+        if(modifyProduct) {
+            setProductTitle("Modify Product");
+        } else {
+            setProductTitle("Add Product");
+        }
+        PassableData.modifyProduct = modifyProduct;
+    }
+
+    public static int getProductIndex() {
+        return productIndex;
+    }
+
+    public static void setProductIndex(int productIndex) {
+        PassableData.productIndex = productIndex;
+    }
+
     public static boolean isOutsourced() {
         return outsourced;
     }
@@ -27,12 +60,17 @@ public class PassableData {
     }
 
 
-    public static boolean getIsModify() {
-        return isModify;
+    public static boolean isModifyPart() {
+        return modifyPart;
     }
 
-    public static void setIsModify(boolean modify) {
-        PassableData.isModify = modify;
+    public static void setIsModifyPart(boolean modify) {
+        if(modify) {
+            setPartTitle("Modify Part");
+        } else {
+            setPartTitle("Add Part");
+        }
+        PassableData.modifyPart = modify;
     }
 
     public static Part getPartData() {
@@ -51,11 +89,11 @@ public class PassableData {
         PassableData.productData = productData;
     }
 
-    public static String getTitle() {
-        return title;
+    public static String getPartTitle() {
+        return partTitle;
     }
 
-    public static void setTitle(String title) {
-        PassableData.title = title;
+    public static void setPartTitle(String partTitle) {
+        PassableData.partTitle = partTitle;
     }
 }

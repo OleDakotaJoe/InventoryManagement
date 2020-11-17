@@ -8,9 +8,16 @@ import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 
+
+/**
+ * Controller for FXML file addmodifypart.fxml
+ *
+ * Contains all event handling for Add/Modify Part form.
+ *
+ * Extends the Validator class, to gain its functionality, to aid in textField Validation.
+ */
 public class AddModifyPartController extends Validator {
 
     @FXML public TextFieldLimited partId;
@@ -44,14 +51,13 @@ public class AddModifyPartController extends Validator {
 
     @FXML
     public void initialize() {
-     changeVarLabel();
-     addModLabel.setText(PassableData.getTitle());
-     if(PassableData.getIsModify() && PassableData.getPartData()!= null){
-         populateForm();
-     } else {
-         partId.setText(Controller.createId());
-     }
-     partName.setMaxLength(26);
+     addModLabel.setText(PassableData.getPartTitle());
+        if(PassableData.isModifyPart() && PassableData.getPartData()!= null){
+            populateForm();
+        } else {
+            partId.setText(Controller.createId());
+        }
+        changeVarLabel();
     }
 
     public void changeVarLabel() {
@@ -70,8 +76,7 @@ public class AddModifyPartController extends Validator {
 
     }
 
-    // TODO: 11/14/2020 Implement functionality to add variableTextField property
-    public void populateForm() {
+    private void populateForm() {
         Part selectedPart = (Part) PassableData.getPartData();
         partPrice.setText(String.valueOf(selectedPart.getPrice()));
         partName.setText(selectedPart.getName());
@@ -94,8 +99,22 @@ public class AddModifyPartController extends Validator {
 
     }
 
-    public boolean partIsValid(){
-        boolean isComplete =  !partPrice.getText().equals("")
+    /**
+     * <h1>This method tests whether or not the entries into the Add/Modify part form's fields are valid complete and valid input. </h1>
+     * <p> The test checks first that there is valid text entries into each of the text fields
+     *      * located on the add/modify part form.</p>
+     * <p>The isDoubleValid(), isCSVTextValid(), and isIntegerValid() methods are members of the Validator class
+     *      * which the Controller class extends. Each of these methods currently take a parameter which is required
+     *      * to designate which field the method is validating. These overloaded methods only check for validity, but also
+     *      * have an overloaded method which will correct the errors as well. this is used in textFieldValidator An alert message for each item that may be invalid is provided, even though they
+     *      * currently are not all able to be used. This way if a change is made to the Validator class, which no longer
+     *      * corrects the invalid text, or if a bug is introduced, the user will receive a Alert that informs them of their
+     *      * errors and directions on how to provide valid input.</p>
+     * @return The method returns true if all text is complete and valid according to data type, and false otherwise.
+     */
+    public boolean isValidPart() {
+        boolean result = false;
+        boolean isComplete = !partPrice.getText().equals("")
                 && !partName.getText().equals("")
                 && !inventoryCount.getText().equals("")
                 && !partId.getText().equals("")
@@ -108,7 +127,8 @@ public class AddModifyPartController extends Validator {
         boolean isValidMax = isIntegerValid(maximumInventory);
         boolean isValidMin = isIntegerValid(minimumInventory);
         boolean isMinLessThanMax = false;
-        if (isComplete) isMinLessThanMax = Integer.parseInt(maximumInventory.getText()) > Integer.parseInt(minimumInventory.getText());
+        if (isComplete)
+            isMinLessThanMax = Integer.parseInt(maximumInventory.getText()) > Integer.parseInt(minimumInventory.getText());
 
         if (!isComplete) {
             Alert errorMessage = new Alert(Alert.AlertType.INFORMATION);
@@ -116,18 +136,13 @@ public class AddModifyPartController extends Validator {
             errorMessage.setHeaderText("You didn't enter required information!");
             errorMessage.setContentText("All fields are required! Your part has not been saved. Press \"OK\" and try again.");
             errorMessage.show();
-            return false;
-        }
-        if (!isMinLessThanMax) {
+        } else if (!isMinLessThanMax) {
             Alert errorMessage = new Alert(Alert.AlertType.INFORMATION);
             errorMessage.setTitle("Invalid Entry");
             errorMessage.setHeaderText("Min must be less than Max!");
             errorMessage.setContentText("Re-enter your data! Your part has not been saved.Press \"OK\" and try again.");
             errorMessage.show();
-            return  false;
-        }
-
-        if(!isValidPrice) {
+        } else if (!isValidPrice) {
             Alert errorMessage = new Alert(Alert.AlertType.INFORMATION);
             errorMessage.setTitle("Price is not valid");
             errorMessage.setHeaderText("The value you entered for price is not valid");
@@ -135,10 +150,7 @@ public class AddModifyPartController extends Validator {
                     " not include more than one decimal point (.), does not contain any letters,  and does not " +
                     "have more than two digits after the decimal.  ");
             errorMessage.show();
-            return false;
-        }
-
-        if (!isValidName) {
+        } else if (!isValidName) {
             Alert errorMessage = new Alert(Alert.AlertType.INFORMATION);
             errorMessage.setTitle("Invalid Name");
             errorMessage.setHeaderText("The value you entered for name is not valid.");
@@ -146,44 +158,37 @@ public class AddModifyPartController extends Validator {
                     " include any quotation marks," +
                     "(\"), or commas (,).");
             errorMessage.show();
-            return false;
-        }
-        if (!isValidId) {
+        } else if (!isValidId) {
             Alert errorMessage = new Alert(Alert.AlertType.INFORMATION);
             errorMessage.setTitle("Incorrect ID");
             errorMessage.setHeaderText("The value you entered for ID is not valid");
             errorMessage.setContentText("Please ensure that the value you have entered" +
                     " is a whole number, with no letters, symbols or decimal points.  ");
             errorMessage.show();
-            return false;
-        }
-
-        if (!isValidMax) {
+        } else if (!isValidMax) {
             Alert errorMessage = new Alert(Alert.AlertType.INFORMATION);
             errorMessage.setTitle("Incorrect Max Inventory");
             errorMessage.setHeaderText("The value you entered for Max is not valid");
             errorMessage.setContentText("Please ensure that the value you have entered" +
                     " is a whole number, with no letters, symbols or decimal points.  ");
             errorMessage.show();
-            return false;
-        }
-
-        if(!isValidMin) {
+        } else if (!isValidMin) {
             Alert errorMessage = new Alert(Alert.AlertType.INFORMATION);
             errorMessage.setTitle("Incorrect Min Inventory");
             errorMessage.setHeaderText("The value you entered for Min is not valid");
             errorMessage.setContentText("Please ensure that the value you have entered" +
                     " is a whole number, with no letters, symbols or decimal points.  ");
             errorMessage.show();
-            return false;
+        } else {
+            result = true;
         }
-        return true;
 
+        return result;
     }
 
     public void addPart() {
 
-        if(partIsValid()) {
+        if(isValidPart()) {
             double price = Double.parseDouble(partPrice.getText());
             String name = partName.getText();
             int stock = Integer.parseInt(inventoryCount.getText());
@@ -194,7 +199,7 @@ public class AddModifyPartController extends Validator {
 
                 if (inHouse.isSelected()) {
                     InHouse newPart = new InHouse(id,name,price,stock,minimum,maximum,Integer.parseInt(variableText));
-                    if (PassableData.getIsModify()) {
+                    if (PassableData.isModifyPart()) {
                         Controller.getInventory().updatePart(PassableData.getPartIndex(), newPart);
                     } else {
                         Controller.getInventory().addPart(newPart);
@@ -202,7 +207,7 @@ public class AddModifyPartController extends Validator {
 
                 } else if (outsourced.isSelected()) {
                     Outsourced newPart = new Outsourced(id,name,price,stock,minimum,maximum,variableText);
-                    if (PassableData.getIsModify()) {
+                    if (PassableData.isModifyPart()) {
                         Controller.getInventory().updatePart(PassableData.getPartIndex(), newPart);
                     } else {
                         Controller.getInventory().addPart(newPart);
@@ -219,26 +224,32 @@ public class AddModifyPartController extends Validator {
             }
     }
 
-    public void validator(KeyEvent event) {
+    /**<h1>Validates and checks for proper format of Data types</h1>
+     *  <p>This method is used for validation of text fields. It checks for event type, then validates
+     *      * based on the source based on what data should be in the field.</p>
+     *  <p>The variable "source" </p>
+     * @param event is the must be called by an event listener that passes a KeyEvent, and the source must be a text field.
+     */
+    public void textFieldValidator(KeyEvent event) {
         TextFieldLimited source =(TextFieldLimited) event.getSource();
         if (source.equals(partId)) {
-           isIntegerValid(source,event);
+           isIntegerValid(event);
         } else if (source.equals(maximumInventory)) {
-            isIntegerValid(source,event);
+            isIntegerValid(event);
         } else if (source.equals(partName)) {
-            isCSVTextValid(source,event);
+            isCSVTextValid(event);
         } else if (source.equals(inventoryCount)) {
-            isIntegerValid(source,event);
+            isIntegerValid(event);
         } else if (source.equals(minimumInventory)) {
-            isIntegerValid(source,event);
+            isIntegerValid(event);
         } else if (source.equals(variableTextField)) {
             if (inHouse.isSelected()) {
-                isIntegerValid(source,event);;
+                isIntegerValid(event);;
             } else {
-                isCSVTextValid(source,event);
+                isCSVTextValid(event);
             }
         } else if (source.equals(partPrice)) {
-            isDoubleValid(source, event);
+            isDoubleValid(event);
         } else return;
     }
 
@@ -253,6 +264,6 @@ public class AddModifyPartController extends Validator {
         }
         Stage stage = (Stage) cancelButton.getScene().getWindow();
         stage.close();
-        PassableData.setIsModify(false);
+        PassableData.setIsModifyPart(false);
     }
 }

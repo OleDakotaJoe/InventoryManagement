@@ -6,7 +6,15 @@ import javafx.scene.input.KeyEvent;
 public class Validator {
 
 
-    private void textFieldValidator(TextField element, KeyEvent event, String regex) {
+    /**
+     * <h1>Validates TextFields in javaFX.</h1>
+     * This method is the primary method of the Validator class. It can be used standalone or as a part of the other methods in the class.
+     * 
+     * @param event
+     * @param regex
+     * @return
+     */
+    private TextField textFieldValidator(KeyEvent event, String regex) {
         /** THIS METHOD PREVENTS THE USER FROM ENTERING DATA OF THE WRONG DATA TYPE
          *      THE METHOD FINDS INCORRECT DATA BASED ON THE regex PARAMETER AND
          *      REPLACES IT WITH AN EMPTY STRING.
@@ -17,7 +25,7 @@ public class Validator {
          * textFieldValidator(element, event,"[^\\d.]"); for integer
          * textFieldValidator(element, event,"[^\\p{Digit}.]"); for double
          */
-
+        TextField element = (TextField) event.getSource();
         int caretPosition = element.getCaretPosition();
         int textLength = element.getText().length();
         if (!event.getCode().isWhitespaceKey()
@@ -40,10 +48,11 @@ public class Validator {
             }
 
         }
+        return element;
     }
 
-    protected boolean isDoubleValid(TextField element, KeyEvent event) {
-        textFieldValidator(element, event,"[^\\p{Digit}.]");
+    protected boolean isDoubleValid(KeyEvent event) {
+       TextField element = (TextField) textFieldValidator(event,"[^\\p{Digit}.]");
         return isDoubleValid(element);
     }
 
@@ -58,8 +67,8 @@ public class Validator {
         return true;
     }
 
-    protected boolean isIntegerValid(TextField element, KeyEvent event) {
-        textFieldValidator(element, event,"[^\\d]");
+    protected boolean isIntegerValid(KeyEvent event) {
+        TextField element = (TextField) textFieldValidator(event,"[^\\d]");
         return isIntegerValid(element);
     }
 
@@ -74,9 +83,10 @@ public class Validator {
         return true;
     }
 
-    protected boolean isCSVTextValid(TextField element, KeyEvent event) {
+    protected boolean isCSVTextValid(KeyEvent event) {
+        TextField element = (TextField) event.getSource();
         if (element.getText().contains(",") || element.getText().contains("\"")) {
-            textFieldValidator(element, event, "[\",]");
+            textFieldValidator(event, "[\",]");
             System.out.println("Not Valid");
             return false;
         }
