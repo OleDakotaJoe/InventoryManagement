@@ -35,7 +35,8 @@
                         </font>
                     </Label>
                     <TextFieldLimited fx:id="searchParts"
-                                      onKeyReleased="#searchParts"
+                                      onKeyReleased="#searchPartsType"
+                                      onAction="#searchPartsEnter"
                                       promptText="Search by ID or Name"
                                       AnchorPane.rightAnchor="20"
                     />
@@ -97,7 +98,8 @@
                         </font>
                     </Label>
                     <TextFieldLimited fx:id="searchProducts"
-                                      onKeyReleased="#searchProducts"
+                                      onKeyReleased="#searchProductsOnType"
+                                      onAction="#searchProductsOnEnter"
                                       promptText="Search by ID or Name"
                                       AnchorPane.rightAnchor="20"/>
                 </AnchorPane>
@@ -132,6 +134,7 @@
                             GridPane.columnIndex="3"
                     />
                     <Button fx:id="deleteProduct"
+                            onAction="#deleteProduct"
                             text="Delete"
                             GridPane.rowIndex="0"
                             GridPane.columnIndex="6"

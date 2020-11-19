@@ -4,11 +4,13 @@ import com.inventory.Controller;
 import com.inventory.controls.TextFieldLimited;
 import com.inventory.data.datamodel.*;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
-import java.io.IOException;
 
 
 /**
@@ -52,10 +54,10 @@ public class AddModifyPartController extends Validator {
     @FXML
     public void initialize() {
      addModLabel.setText(PassableData.getPartTitle());
-        if(PassableData.isModifyPart() && PassableData.getPartData()!= null){
+        if(PassableData.isModifyPart() && PassableData.getPartData() != null){
             populateForm();
         } else {
-            partId.setText(Controller.createId());
+            partId.setText(Controller.createPartId());
         }
         changeVarLabel();
     }
@@ -213,12 +215,12 @@ public class AddModifyPartController extends Validator {
                         Controller.getInventory().addPart(newPart);
                     }
                 }
-                try {
+/*                try {
                     InventoryData.getInstance().storePartInventory();
-                    InventoryData.getInstance().storeIdIndex();
+                    InventoryData.getInstance().storePartIdIndex();
                 } catch (IOException e) {
                     e.printStackTrace();
-                }
+                }*/
                 exit();
 
             }
@@ -257,11 +259,11 @@ public class AddModifyPartController extends Validator {
 
     @FXML
     public void exit(){
-        try {
-            InventoryData.getInstance().storeIdIndex();
+/*        try {
+            InventoryData.getInstance().storePartIdIndex();
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
         Stage stage = (Stage) cancelButton.getScene().getWindow();
         stage.close();
         PassableData.setIsModifyPart(false);

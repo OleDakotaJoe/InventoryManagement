@@ -61,7 +61,6 @@ public class Validator {
             Double.parseDouble(element.getText());
         }
         catch (Exception e) {
-            System.out.println("Not Valid");
             return false;
         }
         return true;
@@ -77,7 +76,6 @@ public class Validator {
             Integer.parseInt(element.getText());
         }
         catch (Exception e) {
-            System.out.println("Not Valid");
             return false;
         }
         return true;
@@ -87,7 +85,6 @@ public class Validator {
         TextField element = (TextField) event.getSource();
         if (element.getText().contains(",") || element.getText().contains("\"")) {
             textFieldValidator(event, "[\",]");
-            System.out.println("Not Valid");
             return false;
         }
         return true;
@@ -95,15 +92,10 @@ public class Validator {
 
     protected boolean isCSVTextValid(TextField element) {
         if(element.getText().contains(",") || element.getText().contains("\"")) {
-            System.out.println("Not Valid");
             return false;
         }
         return true;
     }
-
-
-
-
 }
 
 

@@ -1,10 +1,11 @@
 package com.inventory.data.datamodel;
 
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-public class Product<T> {
-    private ObservableList<Part> associatedParts;
+public class Product {
+    private ObservableList<Part> associatedParts = FXCollections.observableArrayList();
     private int id;
     private String name;
     private double price;

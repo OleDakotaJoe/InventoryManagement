@@ -7,7 +7,6 @@
 <?import javafx.scene.shape.Box?>
 <?import javafx.scene.text.Font?>
 <BorderPane fx:controller="com.inventory.modifyproduct.AddModifyProductController"
-            fx:id="mainStage"
             xmlns="http://javafx.com/javafx"
             prefHeight="550.0" prefWidth="825.0"
             xmlns:fx="http://javafx.com/fxml">
@@ -41,6 +40,7 @@
                         <Label text="Price"  GridPane.rowIndex="3" GridPane.columnIndex="0"/>
                         <Label text="Max"  GridPane.rowIndex="4" GridPane.columnIndex="0"/>
                         <TextFieldLimited fx:id="productId"
+                                          onKeyReleased="#textFieldValidator"
                                           promptText="Auto Gen - Disabled"
                                           GridPane.rowIndex="0"
                                           GridPane.columnIndex="1"
@@ -49,26 +49,30 @@
                                           disable="true"
                         />
                         <TextFieldLimited fx:id="productName"
-                                          promptText="Part Name..."
-                                          maxLength="16"
+                                          onKeyReleased="#textFieldValidator"
+                                          promptText="Product Name..."
+                                          maxLength="26"
                                           GridPane.rowIndex="1"
                                           GridPane.columnIndex="1"
                                           maxWidth="150"
                                           GridPane.columnSpan="2"
                         />
                         <TextFieldLimited fx:id="productStock"
-                                          promptText="Current Inventory..."
+                                          onKeyReleased="#textFieldValidator"
+                                          promptText="Inventory..."
                                           GridPane.rowIndex="2"
                                           GridPane.columnIndex="1"
                                           maxWidth="80"
                         />
                         <TextFieldLimited fx:id="productPrice"
+                                          onKeyReleased="#textFieldValidator"
                                           promptText="Price..."
                                           GridPane.rowIndex="3"
                                           GridPane.columnIndex="1"
                                           maxWidth="80"
                         />
                         <TextFieldLimited fx:id="maxStock"
+                                          onKeyReleased="#textFieldValidator"
                                           promptText="Max Stock..."
                                           GridPane.rowIndex="4"
                                           GridPane.columnIndex="1"
@@ -99,7 +103,9 @@
                             <Insets top="10" bottom="10"/>
                         </padding>
                         <TextFieldLimited promptText="Search by Part ID or Name"
-                                          fx:id="partSearch"
+                                          fx:id="searchParts"
+                                          onKeyReleased="#searchPartsType"
+                                          onAction="#searchPartsEnter"
                                           maxWidth="160"/>
                     </VBox>
                     <TableView fx:id="availablePartTable">
@@ -114,7 +120,7 @@
                         <padding>
                             <Insets  top="10" bottom="10" right="50"/>
                         </padding>
-                        <Button fx:id="addPartButton" text="Add" >
+                        <Button fx:id="addPartButton" onAction="#addPartToAssociatedParts" text="Add" >
 
                         </Button>
                     </VBox>
@@ -132,6 +138,7 @@
                             <Insets top="10" right="30"/>
                         </padding>
                         <Button fx:id="removeAssociatedPart"
+                                onAction="#removePartFromAssociatedParts"
                                 GridPane.columnIndex="0"
                                 GridPane.columnSpan="2"
                                 GridPane.rowIndex="0"
@@ -140,12 +147,14 @@
 
                         </Button>
                         <Button fx:id="addProductAndSave"
+                                onAction="#addProductToInventory"
                                 GridPane.columnIndex="0"
                                 GridPane.rowIndex="1"
                                 text="Save"
                                 defaultButton="true" >
                         </Button>
                         <Button fx:id="cancelButton"
+                                onAction="#exit"
                                 GridPane.columnIndex="1"
                                 GridPane.rowIndex="1"
                                 text="Cancel"

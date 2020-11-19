@@ -28,7 +28,8 @@ public class Inventory {
 
     public Part lookupPart(String partName) {
         for (Part part : allParts) {
-            if(part.getName().contains(partName)) {
+            String partInInventory = part.getName().toLowerCase();
+            if(partInInventory.contains(partName.toLowerCase())) {
                 return part;
             } else {
                 continue;
@@ -52,7 +53,8 @@ public class Inventory {
 
     public Product lookupProduct(String productName) {
         for (Product product : allProducts) {
-            if(product.getName().contains(productName)) {
+            String productInInventory = product.getName().toLowerCase();
+            if(productInInventory.contains(productName.toLowerCase())) {
                 return product;
             } else {
                 continue;
@@ -66,15 +68,16 @@ public class Inventory {
 
     public void updatePart(int index, Part selectedPart) {
         this.getAllParts().set(index, selectedPart);
+
     }
 
     public void updateProduct(int index, Product newProduct) {
-        this.getAllProducts().set(index,newProduct);
+        this.getAllProducts().set(index, newProduct);
     }
 
     public boolean deletePart(Part selectedPart) {
         boolean isRemoved = false;
-        for(Part part : allParts) {
+        for(Part part : getAllParts()) {
             if (part == selectedPart) {
                 allParts.remove(part);
                 isRemoved = true;
@@ -90,9 +93,10 @@ public class Inventory {
 
     public boolean deleteProduct(Product selectedProduct) {
         boolean isRemoved = false;
-        for(Product product : allProducts) {
+
+        for(Product product : getAllProducts()) {
             if (product == selectedProduct) {
-                allParts.remove(product);
+                allProducts.remove(product);
                 isRemoved = true;
                 break;
             } else {
