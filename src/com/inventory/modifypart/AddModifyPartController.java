@@ -23,33 +23,61 @@ import java.io.IOException;
  * Extends the Validator class, to gain its functionality, to aid in textField Validation.
  */
 public class AddModifyPartController extends Validator {
-
+    /**
+     * Points to corresponding element in .fxml file.
+     */
     @FXML public TextFieldLimited partId;
-
+    /**
+     * Points to corresponding element in .fxml file.
+     */
     @FXML public TextFieldLimited partName;
-
+    /**
+     * Points to corresponding element in .fxml file.
+     */
     @FXML public TextFieldLimited inventoryCount;
-
+    /**
+     * Points to corresponding element in .fxml file.
+     */
     @FXML public TextFieldLimited partPrice;
-
+    /**
+     * Points to corresponding element in .fxml file.
+     */
     @FXML public TextFieldLimited maximumInventory;
-
+    /**
+     * Points to corresponding element in .fxml file.
+     */
     @FXML public TextFieldLimited variableTextField;
-
+    /**
+     * Points to corresponding element in .fxml file.
+     */
     @FXML public Label varLabel;
-
+    /**
+     * Points to corresponding element in .fxml file.
+     */
     @FXML public Label addModLabel;
-
+    /**
+     * Points to corresponding element in .fxml file.
+     */
     @FXML public TextFieldLimited minimumInventory;
-
+    /**
+     * Points to corresponding element in .fxml file.
+     */
     @FXML public Button saveButton;
-
+    /**
+     * Points to corresponding element in .fxml file.
+     */
     @FXML public Button cancelButton;
-
+    /**
+     * Points to corresponding element in .fxml file.
+     */
     @FXML public RadioButton inHouse;
-
+    /**
+     * Points to corresponding element in .fxml file.
+     */
     @FXML public RadioButton outsourced;
-
+    /**
+     * Points to corresponding element in .fxml file.
+     */
     @FXML public GridPane main;
 
 

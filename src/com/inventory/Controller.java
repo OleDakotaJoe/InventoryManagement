@@ -20,82 +20,177 @@ import java.io.IOException;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Controller {
+    /**
+     * Creates an instance of the <code>Inventory</code> class.
+     */
     private static final Inventory inventory = new Inventory();
+    /**
+     * Creates an instance of the <code>AtomicInteger</code> class.
+     */
     private static final AtomicInteger productIdCounter = new AtomicInteger();
+    /**
+     * Creates an instance of the <code>AtomicInteger</code> class.
+     */
     private static final AtomicInteger partIdCounter = new AtomicInteger();
 
 
+    /**
+     * Getter for retrieving the <code>inventory</code> instance.
+     * @return
+     * Returns the <code>inventory</code> instance.
+     */
     public static Inventory getInventory() {
         return inventory;
     }
 
 
+    /**
+     * Gets and increments the count fo the <code>partIdCounter</code>.
+     * @return
+     * Returns the string value of the partIdCounter.
+     */
     public static String createPartId() {
         String currentCounter = String.valueOf(partIdCounter.getAndIncrement());
         return currentCounter;
     }
 
+    /**
+     * Gets current count fo the <code>partIdCounter</code>.
+     * @return
+     * Returns the string value of the partIdCounter.
+     */
     public static AtomicInteger getPartIdCounter() {
         return partIdCounter;
     }
 
+    /**
+     * Sets the value of the <code>partIdCounter</code>.
+     * This method is used in when loading part data in the <code>InventoryData</code> class.
+     * @param partIdCounter
+     * The int value to be set as the <code>partIdCounter</code>
+     */
     public static void setPartIdCounter(int partIdCounter) {
         Controller.partIdCounter.set(partIdCounter);
     }
 
 
+    /**
+     * Gets and increments the count for the <code>productIdCounter</code>.
+     * @return
+     * Returns the string value of the productIdCounter.
+     */
     public static String createProductId() {
         String currentCounter = String.valueOf(productIdCounter.getAndIncrement());
         return currentCounter;
     }
 
+    /**
+     * Gets current count fo the <code>productIdCounter</code>.
+     * @return
+     * Returns the string value of the productIdCounter.
+     */
     public static AtomicInteger getProductIdCounter() {
         return productIdCounter;
     }
 
+    /**
+     * Sets the value of the <code>productIdCounter</code>.
+     * This method is used in when loading part data in the <code>InventoryData</code> class.
+     * @param productIdCounter
+     * The int value to be set as the <code>productIdCounter</code>
+     */
     public static void setProductIdCounter(int productIdCounter) {
         Controller.productIdCounter.set(productIdCounter);
     }
 
 
+    /**
+     * Points to corresponding element in .fxml file.
+     */
     @FXML private Button addPart;
 
+    /**
+     * Points to corresponding element in .fxml file.
+     */
     @FXML private Button modifyPart;
-
+    /**
+     * Points to corresponding element in .fxml file.
+     */
     @FXML private Button addProduct;
 
+    /**
+     * Points to corresponding element in .fxml file.
+     */
     @FXML private Button modifyProduct;
 
-    @FXML private Button deletePart;
-
+    /**
+     * Points to corresponding element in .fxml file.
+     */
     @FXML private Button exitButton;
 
+    /**
+     * Points to corresponding element in .fxml file.
+     */
     @FXML private TableView<Part> partTable;
 
+    /**
+     * Points to corresponding element in .fxml file.
+     */
     @FXML private TableColumn<Part, Integer> partId;
 
+    /**
+     * Points to corresponding element in .fxml file.
+     */
     @FXML private TableColumn<Part, String> partName;
 
+    /**
+     * Points to corresponding element in .fxml file.
+     */
     @FXML private TableColumn<Part, Integer> partStock;
 
+    /**
+     * Points to corresponding element in .fxml file.
+     */
     @FXML private TableColumn<Part, Double> partPrice;
-
+    /**
+     * Points to corresponding element in .fxml file.
+     */
     @FXML private TableView<Product> productTable;
 
+    /**
+     * Points to corresponding element in .fxml file.
+     */
     @FXML private TableColumn<Product, Integer> productId;
 
+    /**
+     * Points to corresponding element in .fxml file.
+     */
     @FXML private TableColumn<Product, String> productName;
 
+    /**
+     * Points to corresponding element in .fxml file.
+     */
     @FXML private TableColumn<Product, Integer> productStock;
 
+    /**
+     * Points to corresponding element in .fxml file.
+     */
     @FXML private TableColumn<Product, Double> productPrice;
 
+    /**
+     * Points to corresponding element in .fxml file.
+     */
     @FXML private TextFieldLimited searchProducts;
 
+    /**
+     * Points to corresponding element in .fxml file.
+     */
     @FXML private TextFieldLimited searchParts;
 
 
-
+    /**
+     * Upon initializtion of the main.fxml file, this method is called and loads all inventory data, and sets the values of the table views.
+     */
     @FXML
     private void initialize(){
         Node node = addPart;

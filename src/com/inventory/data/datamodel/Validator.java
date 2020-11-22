@@ -16,6 +16,7 @@ public class Validator {
      * This method should be called on a <code>KeyEvent</code>.
      * The method also ignores non-text input, such as arrowKeys, functionKeys, Modifier Keys, NavigationKeys, as well
      * as ignoring when shift or control is down, to prevent buggy behavior)
+     * <p>In future releases of this product need to work to ensure that the price field includes only 2 significant digits.</p>
      * <code>textFieldValidator(event,"[^\\d.]");// for integer</code>
      * <code>textFieldValidator(event,"[^\\p{Digit}.]");// for double</code>
      * <code>textFieldValidator(event, "[\",]"); //for text (to not interfere with comma-delimited format)</code>

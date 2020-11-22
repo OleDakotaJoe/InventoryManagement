@@ -11,6 +11,9 @@ import java.nio.file.Paths;
 
 /**
  * Reads and writes inventory Data to a flat .txt file
+ * <p>In future releases of the product, will need to implement reading and writing from a database rather than from a flat file.
+ * This may also allow storing of data offsite, meaning that the user
+ * can retrieve and edit data from more than one workstation.</p>
  */
 public class InventoryData {
     /**

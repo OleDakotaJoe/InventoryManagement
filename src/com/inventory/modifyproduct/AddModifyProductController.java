@@ -45,49 +45,93 @@ public class AddModifyProductController extends Validator {
     public void addAssociatedPart(Part part) {
         this.associatedParts.add(part);
     }
-
+    /**
+     * Points to corresponding element in .fxml file.
+     */
     @FXML public Label addModLabel;
-
+    /**
+     * Points to corresponding element in .fxml file.
+     */
     @FXML public TextFieldLimited productId;
-
+    /**
+     * Points to corresponding element in .fxml file.
+     */
     @FXML public TextFieldLimited productName;
-
+    /**
+     * Points to corresponding element in .fxml file.
+     */
     @FXML public TextFieldLimited productStock;
-
+    /**
+     * Points to corresponding element in .fxml file.
+     */
     @FXML public TextFieldLimited productPrice;
-
+    /**
+     * Points to corresponding element in .fxml file.
+     */
     @FXML public TextFieldLimited maxStock;
-
+    /**
+     * Points to corresponding element in .fxml file.
+     */
     @FXML public TextFieldLimited minStock;
-
+    /**
+     * Points to corresponding element in .fxml file.
+     */
     @FXML public TextFieldLimited searchParts;
-
+    /**
+     * Points to corresponding element in .fxml file.
+     */
     @FXML public TableView<Part> associatedPartTable;
-
+    /**
+     * Points to corresponding element in .fxml file.
+     */
     @FXML public TableView<Part> availablePartTable;
-
+    /**
+     * Points to corresponding element in .fxml file.
+     */
     @FXML public TableColumn<Part, Integer> availablePartId;
-
+    /**
+     * Points to corresponding element in .fxml file.
+     */
     @FXML public TableColumn<Part, String> availablePartName;
-
+    /**
+     * Points to corresponding element in .fxml file.
+     */
     @FXML public TableColumn<Part, Integer> availablePartStock;
-
+    /**
+     * Points to corresponding element in .fxml file.
+     */
     @FXML public TableColumn<Part, Double> availablePartPrice;
-
+    /**
+     * Points to corresponding element in .fxml file.
+     */
     @FXML public TableColumn<Part, Integer> associatedPartId;
-
+    /**
+     * Points to corresponding element in .fxml file.
+     */
     @FXML public TableColumn<Part, String> associatedPartName;
-
+    /**
+     * Points to corresponding element in .fxml file.
+     */
     @FXML public TableColumn<Part, Integer> associatedPartStock;
-
+    /**
+     * Points to corresponding element in .fxml file.
+     */
     @FXML public TableColumn<Part, Double> associatedPartPrice;
-
+    /**
+     * Points to corresponding element in .fxml file.
+     */
     @FXML public Button addPartButton;
-
+    /**
+     * Points to corresponding element in .fxml file.
+     */
     @FXML public Button addProductAndSave;
-
+    /**
+     * Points to corresponding element in .fxml file.
+     */
     @FXML public Button cancelButton;
-
+    /**
+     * Points to corresponding element in .fxml file.
+     */
     @FXML public Button removeAssociatedPart;
 
 
