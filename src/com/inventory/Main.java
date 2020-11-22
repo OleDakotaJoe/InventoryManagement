@@ -1,10 +1,13 @@
 package com.inventory;
 
+import com.inventory.data.datamodel.InventoryData;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+
+import java.io.IOException;
 
 public class Main extends Application {
 
@@ -23,7 +26,12 @@ public class Main extends Application {
         launch(args);
     }
 
-   /* @Override
+    /**
+     * Overrides the  <code>stop()</code> method and stores all inventory data when user clicks the X button to close the window.
+     * @throws Exception
+     * If there is an issue storing data, throws an exception.
+     */
+    @Override
     public void stop() throws Exception {
         try {
             InventoryData.getInstance().storePartInventory();
@@ -34,5 +42,5 @@ public class Main extends Application {
             e.printStackTrace();
         }
         super.stop();
-    }*/
+    }
 }

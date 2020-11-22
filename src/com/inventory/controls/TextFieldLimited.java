@@ -42,9 +42,9 @@ public class TextFieldLimited extends TextField {
      *
      * Deletes or backspaces the user's input
      * @param start
-     * The starting index in the range, inclusive. This must be >= 0 and < the end.
+     * The starting index in the range, inclusive.
      * @param end
-     * The ending index in the range, exclusive. This is one-past the last character to delete (consistent with the String manipulation methods). This must be > the start, and <= the length of the text.
+     * The ending index in the range, exclusive. This is one-past the last character to delete (consistent with the String manipulation methods).
      * @param text
      *  The text that is to replace the range. This must not be null.
      */

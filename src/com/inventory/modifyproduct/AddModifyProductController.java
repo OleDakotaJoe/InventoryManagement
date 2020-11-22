@@ -2,10 +2,7 @@ package com.inventory.modifyproduct;
 
 import com.inventory.Controller;
 import com.inventory.controls.TextFieldLimited;
-import com.inventory.data.datamodel.Part;
-import com.inventory.data.datamodel.PassableData;
-import com.inventory.data.datamodel.Product;
-import com.inventory.data.datamodel.Validator;
+import com.inventory.data.datamodel.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -14,14 +11,37 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
+import java.io.IOException;
+
+/**
+ * Controller for FXML file addmodifyproduct.fxml
+ *
+ * Contains all event handling for Add/Modify Product form.
+ *
+ * Extends the Validator class, to gain its functionality and aid in textField Validation.
+ */
 public class AddModifyProductController extends Validator {
 
-    private ObservableList<Part> associatedParts = FXCollections.observableArrayList();
+    /**
+     * An <code>ObservableList</code> to temporarily hold all associatedParts.
+     * Instantiated when the class is instantiated.
+     */
+    private final ObservableList<Part> associatedParts = FXCollections.observableArrayList();
 
+    /**
+     * Getter for <code>associateParts</code> list.
+     * @return
+     * Returns <code>associateParts</code>
+     */
     public ObservableList<Part> getAssociatedParts() {
         return associatedParts;
     }
 
+    /**
+     * Adds a <code>Part</code> to <code>associateParts</code> list.
+     * @param part
+     * <code>Part</code> to be added.
+     */
     public void addAssociatedPart(Part part) {
         this.associatedParts.add(part);
     }
@@ -71,6 +91,11 @@ public class AddModifyProductController extends Validator {
     @FXML public Button removeAssociatedPart;
 
 
+    /**
+     * Called when the addmodifyproduct.fxml files is initialized.
+     * Checks whether or not the product is to be modified or if it is added, and then populates the form if applicable, or creates a new
+     * <code>productId</code> if applicable.
+     */
     @FXML public void initialize() {
         displayTableView();
         addModLabel.setText(PassableData.getProductTitle());
@@ -83,21 +108,27 @@ public class AddModifyProductController extends Validator {
 
     }
 
+    /**
+     * Connects the <code>availabePartsTable</code> and the <code>associatedPartsTable</code> to the appropriate values.
+     */
     private void displayTableView() {
-        availablePartId.setCellValueFactory(new PropertyValueFactory<Part, Integer>("id"));
-        availablePartName.setCellValueFactory(new PropertyValueFactory<Part, String>("name"));
-        availablePartStock.setCellValueFactory(new PropertyValueFactory<Part, Integer>("stock"));
-        availablePartPrice.setCellValueFactory(new PropertyValueFactory<Part, Double>("price"));
+        availablePartId.setCellValueFactory(new PropertyValueFactory<>("id"));
+        availablePartName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        availablePartStock.setCellValueFactory(new PropertyValueFactory<>("stock"));
+        availablePartPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
         availablePartTable.setItems(Controller.getInventory().getAllParts());
 
-        associatedPartId.setCellValueFactory(new PropertyValueFactory<Part, Integer>("id"));
-        associatedPartName.setCellValueFactory(new PropertyValueFactory<Part, String>("name"));
-        associatedPartStock.setCellValueFactory(new PropertyValueFactory<Part, Integer>("stock"));
-        associatedPartPrice.setCellValueFactory(new PropertyValueFactory<Part, Double>("price"));
+        associatedPartId.setCellValueFactory(new PropertyValueFactory<>("id"));
+        associatedPartName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        associatedPartStock.setCellValueFactory(new PropertyValueFactory<>("stock"));
+        associatedPartPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
         associatedPartTable.setItems(associatedParts);
 
     }
 
+    /**
+     * Populates the Modify Product form with applicable data.
+     */
     private void populateForm() {
         Product selectedProduct =  PassableData.getProductData();
         productPrice.setText(String.valueOf(selectedProduct.getPrice()));
@@ -120,6 +151,9 @@ public class AddModifyProductController extends Validator {
 
     }
 
+    /**
+     * Adds the selected part from the <code>availablePartsTable</code> to the <code>associatedPartsTable</code> or displays an error message if no parts have been created yet.
+     */
     public void addPartToAssociatedParts() {
         int partIndex = availablePartTable.getSelectionModel().getFocusedIndex();
         if (partIndex >= 0) {
@@ -136,6 +170,11 @@ public class AddModifyProductController extends Validator {
         }
     }
 
+    /**
+     * Removes a part from the <code>associatedPartsTable</code>
+     * This method first displays a confirmation dialog to confirm the user's actions. A
+     * If the user confirms it removes the selected part from the <code>associatedPartsTable</code> as well as the <code>associatedParts</code> <code>ObservableList</code>.
+     */
     public void removePartFromAssociatedParts() {
         Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION);
         confirmation.setTitle("Confirm Remove Part");
@@ -157,6 +196,11 @@ public class AddModifyProductController extends Validator {
         }
     }
 
+    /**
+     * Checks for validity and completeness of all information in the Add/Modify Product form
+     * Uses the extended functionality of the <code>Validator</code> class to correct text input, and check input for validity.
+     * If The information is incomplete or invalid, displays an error message to the user stating the proper format, as well as input type for each field.
+     */
     public void addProductToInventory() {
 
         if(isValidProduct()) {
@@ -171,7 +215,7 @@ public class AddModifyProductController extends Validator {
             Product newProduct= new Product(id,name,price,stock,minimum,maximum);
 
             if (PassableData.isModifyProduct()) {
-                Controller.getInventory().updateProduct(PassableData.getProductIndex(), newProduct);
+                Controller.getInventory().updateProduct(PassableData.getProductIdIndex(), newProduct);
                 for (Part part : associatedParts) {
                     newProduct.addAssociatePart(part);
                 }
@@ -181,18 +225,32 @@ public class AddModifyProductController extends Validator {
                     newProduct.addAssociatePart(part);
                 }
             }
-            /*try {
+            try {
                 InventoryData.getInstance().storeProductIdIndex();
                 InventoryData.getInstance().storeProductInventory();
             } catch (IOException e) {
                 e.printStackTrace();
-            }*/
+            }
             exit();
 
         }
 
     }
 
+    /**
+     * <h1>This method tests whether or not the entries into the Add/Modify Product form's fields are complete and valid input. </h1>
+     * <p> The test checks first that there is valid text entries into each of the text fields
+     *      * located on the add/modify product form.</p>
+     * <p>The isDoubleValid(), isCSVTextValid(), and isIntegerValid() methods are members of the <code>Validator</code> class
+     *      * which the Controller class extends. Each of these methods currently take a parameter which is required
+     *      * to designate which field the method is validating. These overloaded methods only check for validity, but also
+     *      * have an overloaded method which will correct the errors as well. this is used in textFieldValidator An alert message for each item that may be invalid is provided, even though they
+     *      * currently are not all able to be used. This way if a change is made to the Validator class, which no longer
+     *      * corrects the invalid text, or if a bug is introduced, the user will receive a Alert that informs them of their
+     *      * errors and directions on how to provide valid input.</p>
+     * @return
+     * The method returns true if all text is complete and valid according to data type, and false otherwise.
+     */
     public boolean isValidProduct() {
         boolean result = false;
         boolean isComplete = !productPrice.getText().equals("")
@@ -266,6 +324,13 @@ public class AddModifyProductController extends Validator {
         return result;
     }
 
+    /**<h1>Validates and checks for proper format of Data types</h1>
+     *  <p>This method is used for validation of text fields. It checks for event type, then validates
+     *      * based on the source based on what data should be in the field.</p>
+     *  <p>The variable "source" refers to the source of the event, must be a <code>TextField</code>. </p>
+     * @param event
+     * Must be called by an event listener that passes a <code>KeyEvent</code>, and the source must be a <code>TextField</code>.
+     */
     public void textFieldValidator(KeyEvent event) {
         TextFieldLimited source =(TextFieldLimited) event.getSource();
         if (source.equals(productId)) {
@@ -284,11 +349,21 @@ public class AddModifyProductController extends Validator {
     }
 
 
-    public boolean searchPartsType() {
+    /**
+     * Searches for parts based on the partID or the partName.
+     * Automatically selects the part associated with the <code>partName</code> or <code>partId</code>.
+     * If the part input is an integer, it searches by Id first then by name, if the input is non-integer it searches only by name.
+     * @return
+     * returns true if part is found, returns false if part is not found.
+     */
+    public boolean searchParts() {
         try{
         if (searchParts.getText().matches("[\\p{Digit}]+")) {
                 availablePartTable.getSelectionModel().select(Controller.getInventory().lookupPart(Integer.parseInt(searchParts.getText())));
-                if(Controller.getInventory().lookupPart(Integer.parseInt(searchParts.getText())) == null) return false;
+                if(Controller.getInventory().lookupPart(Integer.parseInt(searchParts.getText())) == null) {
+                    availablePartTable.getSelectionModel().select(Controller.getInventory().lookupPart(searchParts.getText()));
+                    if (Controller.getInventory().lookupPart(searchParts.getText()) == null) return false;
+                };
             } else {
                 availablePartTable.getSelectionModel().select(Controller.getInventory().lookupPart(searchParts.getText()));
                 if (Controller.getInventory().lookupPart(searchParts.getText()) == null) return false;
@@ -299,8 +374,13 @@ public class AddModifyProductController extends Validator {
         return true;
     }
 
-    public void searchPartsEnter() {
-        if(!searchPartsType()) {
+    /**
+     * When the user presses enter while typing in a part name or ID, if part is not found, displays a "No Parts Found!" message.
+     * Uses the <code>searchParts()</code> method and if the method returns false, displays an informational message alerting the user that
+     * the part is not found
+     */
+    public void searchPartsOnEnter() {
+        if(!searchParts()) {
             Alert info = new Alert(Alert.AlertType.INFORMATION);
             info.setTitle("No Parts Found!");
             info.setHeaderText("There were no parts found by that description!");
@@ -309,14 +389,17 @@ public class AddModifyProductController extends Validator {
         }
     }
 
+    /**
+     * Adds functionality to the cancel button to close the window, as well as store the current partIDIndex and set <code>PassableData.modifyPart</code> to false.
+     */
     @FXML
     public void exit(){
-        /*try {
+        try {
             InventoryData.getInstance().storeProductIdIndex();
             InventoryData.getInstance().storeProductInventory();
         } catch (IOException e) {
             e.printStackTrace();
-        }*/
+        }
         Stage stage = (Stage) cancelButton.getScene().getWindow();
         stage.close();
         PassableData.setModifyProduct(false);

@@ -1,0 +1,6 @@
+module:InventoryManagement
+com.inventory
+com.inventory.controls
+com.inventory.data.datamodel
+com.inventory.modifypart
+com.inventory.modifyproduct

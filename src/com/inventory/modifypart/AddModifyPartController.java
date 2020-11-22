@@ -12,6 +12,8 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
+import java.io.IOException;
+
 
 /**
  * Controller for FXML file addmodifypart.fxml
@@ -51,6 +53,13 @@ public class AddModifyPartController extends Validator {
     @FXML public GridPane main;
 
 
+    /**
+     * Called when the addmodifypart.fxml files is initialized.
+     * Checks whether or not the part is to be modified or if it is added, and then populates the form if applicable, or creates a new
+     * <code>partId</code> if applicable.
+     *
+     * Calls the <code>changeVarLabel()</code> method to change the <code>varLabel</code> method to the appropriate text.
+     */
     @FXML
     public void initialize() {
      addModLabel.setText(PassableData.getPartTitle());
@@ -62,22 +71,30 @@ public class AddModifyPartController extends Validator {
         changeVarLabel();
     }
 
+    /**
+     * Changes the <code>varLabel</code> element to the appropriate value.
+     * Checks whether or not the <code>inHouse</code> or <code>outsourced</code> radio button
+     * is selected and changes the <code>varLabel</code> and <code>variableTextField</code> promptText properties accordingly.
+     * To avoid improper input, sets the <code>maxLength</code> of the <code>TextFieldLimited</code> accordingly to ensure a valid integer is entered.
+     */
     public void changeVarLabel() {
         if (inHouse.isSelected()) {
             varLabel.setText("Machine ID");
             variableTextField.setPromptText("Machine ID...");
-            variableTextField.setMaxLength(10);
+            variableTextField.setMaxLength(9);
+            int textLength = partId.getText().length();
+            variableTextField.setText(variableTextField.getText().replaceAll("[^\\d.]", ""));
+            variableTextField.positionCaret(textLength);
         } else if (outsourced.isSelected()) {
             varLabel.setText("Company Name");
             variableTextField.setPromptText("Company Name...");
             variableTextField.setMaxLength(26);
         }
-        int textLength = partId.getText().length();
-        variableTextField.setText(variableTextField.getText().replaceAll("[^\\d.]", ""));
-        variableTextField.positionCaret(textLength);
-
     }
 
+    /**
+     * Populates the Modify Part form with applicable data.
+     */
     private void populateForm() {
         Part selectedPart = (Part) PassableData.getPartData();
         partPrice.setText(String.valueOf(selectedPart.getPrice()));
@@ -188,6 +205,11 @@ public class AddModifyPartController extends Validator {
         return result;
     }
 
+    /**
+     * Checks for validity and completeness of all information in the Add/Modify Part form
+     * Uses the extended functionality of the <code>Validator</code> class to correct text input, and check input for validity.
+     * If The information is incomplete or invalid, displays an error message to the user stating the proper format, as well as input type for each field.
+     */
     public void addPart() {
 
         if(isValidPart()) {
@@ -202,7 +224,7 @@ public class AddModifyPartController extends Validator {
                 if (inHouse.isSelected()) {
                     InHouse newPart = new InHouse(id,name,price,stock,minimum,maximum,Integer.parseInt(variableText));
                     if (PassableData.isModifyPart()) {
-                        Controller.getInventory().updatePart(PassableData.getPartIndex(), newPart);
+                        Controller.getInventory().updatePart(PassableData.getPartIdIndex(), newPart);
                     } else {
                         Controller.getInventory().addPart(newPart);
                     }
@@ -210,17 +232,17 @@ public class AddModifyPartController extends Validator {
                 } else if (outsourced.isSelected()) {
                     Outsourced newPart = new Outsourced(id,name,price,stock,minimum,maximum,variableText);
                     if (PassableData.isModifyPart()) {
-                        Controller.getInventory().updatePart(PassableData.getPartIndex(), newPart);
+                        Controller.getInventory().updatePart(PassableData.getPartIdIndex(), newPart);
                     } else {
                         Controller.getInventory().addPart(newPart);
                     }
                 }
-/*                try {
+                try {
                     InventoryData.getInstance().storePartInventory();
                     InventoryData.getInstance().storePartIdIndex();
                 } catch (IOException e) {
                     e.printStackTrace();
-                }*/
+                }
                 exit();
 
             }
@@ -230,7 +252,8 @@ public class AddModifyPartController extends Validator {
      *  <p>This method is used for validation of text fields. It checks for event type, then validates
      *      * based on the source based on what data should be in the field.</p>
      *  <p>The variable "source" </p>
-     * @param event is the must be called by an event listener that passes a KeyEvent, and the source must be a text field.
+     * @param event
+     * Must be called by an event listener that passes a KeyEvent, and the source must be a text field.
      */
     public void textFieldValidator(KeyEvent event) {
         TextFieldLimited source =(TextFieldLimited) event.getSource();
@@ -256,14 +279,16 @@ public class AddModifyPartController extends Validator {
     }
 
 
-
+    /**
+     * Adds functionality to the cancel button to close the window, as well as store the current partIDIndex and set <code>PassableData.modifyPart</code> to false.
+     */
     @FXML
     public void exit(){
-/*        try {
+        try {
             InventoryData.getInstance().storePartIdIndex();
         } catch (IOException e) {
             e.printStackTrace();
-        }*/
+        }
         Stage stage = (Stage) cancelButton.getScene().getWindow();
         stage.close();
         PassableData.setIsModifyPart(false);

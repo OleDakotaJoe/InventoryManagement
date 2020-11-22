@@ -35,8 +35,8 @@
                         </font>
                     </Label>
                     <TextFieldLimited fx:id="searchParts"
-                                      onKeyReleased="#searchPartsType"
-                                      onAction="#searchPartsEnter"
+                                      onKeyReleased="#searchParts"
+                                      onAction="#searchPartsOnEnter"
                                       promptText="Search by ID or Name"
                                       AnchorPane.rightAnchor="20"
                     />
@@ -98,7 +98,7 @@
                         </font>
                     </Label>
                     <TextFieldLimited fx:id="searchProducts"
-                                      onKeyReleased="#searchProductsOnType"
+                                      onKeyReleased="#searchProducts"
                                       onAction="#searchProductsOnEnter"
                                       promptText="Search by ID or Name"
                                       AnchorPane.rightAnchor="20"/>

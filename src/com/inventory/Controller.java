@@ -101,7 +101,7 @@ public class Controller {
         Node node = addPart;
         node.requestFocus();
         displayTableView();
-/*        try {
+        try {
             InventoryData.getInstance().loadIdIndex();
             InventoryData.getInstance().loadPartInventory();
             InventoryData.getInstance().loadProductIdIndex();
@@ -118,10 +118,12 @@ public class Controller {
             } catch (IOException ioException) {
                 ioException.printStackTrace();
             }
-        }*/
+        }
     }
 
-
+    /**
+     * Connects the <code>partsTable</code> and the <code>productsTable</code> to the appropriate values.
+     */
     private void displayTableView() {
         partId.setCellValueFactory(new PropertyValueFactory<Part, Integer>("id"));
         partName.setCellValueFactory(new PropertyValueFactory<Part, String>("name"));
@@ -138,27 +140,40 @@ public class Controller {
 
     }
 
+    /**
+     * Passes a reference to the selected <code>Part</code> to the <code>PassableData.partData</code> field.
+     */
     public void passPartToPassableData() {
         int index = partTable.getSelectionModel().getFocusedIndex();
         if(index >=0) {
             Part part = inventory.getAllParts().get(index);
-            PassableData.setPartIndex(index);
+            PassableData.setPartIdIndex(index);
             PassableData.setPartData(part);
             PassableData.setOutsourced(part.getClass().equals(Outsourced.class));
         }
     }
-
+    /**
+     * Passes a reference to the selected <code>Product</code> to the <code>PassableData.productData</code> field.
+     */
     public void passProductToPassableData() {
         int index = productTable.getSelectionModel().getFocusedIndex();
         if(index >= 0) {
             Product product = inventory.getAllProducts().get(index);
-            PassableData.setProductIndex(index);
+            PassableData.setProductIdIndex(index);
             PassableData.setProductData(product);
         }
 
     }
 
 
+    /**
+     * Opens the Add/Modify Part Form
+     * Checks to see whether the source of the event was the <code>addPart</code> or <code>modifyPart</code> buttons.
+     * Passes part data when appropriate, and sets appropriate values for the <code>modifyPart</code> field in the <code>PassableData</code> class.
+     * if there are no parts in the <code>partTable</code> and <code>modifyPart</code> was the button that was clicked, displays an error message, stating that no part has been created.
+     * @param event
+     * The <code>ActionEvent</code> object that is passed when calling the method.
+     */
     public void openAddPartMenu(ActionEvent event) {
 
         if (event.getSource().equals(addPart)) {
@@ -189,7 +204,14 @@ public class Controller {
             e.printStackTrace();
         }
     }
-
+    /**
+     * Opens the Add/Modify Product Form
+     * Checks to see whether the source of the event was the <code>addProduct</code> or <code>modifyProduct</code> buttons.
+     * Passes part data when appropriate, and sets appropriate values for the <code>modifyProduct</code> field in the <code>PassableData</code> class.
+     * if there are no products in the <code>productTable</code> and <code>modifyProduct</code> was the button that was clicked, displays an error message, stating that no Product has been created.
+     * @param event
+     * The <code>ActionEvent</code> object that is passed when calling the method.
+     */
     public void openAddProductMenu(ActionEvent event) {
         if (event.getSource().equals(addProduct)) {
             PassableData.setModifyProduct(false);
@@ -221,12 +243,22 @@ public class Controller {
         }
     }
 
-
-    public boolean searchPartsType() {
+    /**
+     * Searches for parts based on the partID or the partName.
+     * Automatically selects the part associated with the <code>partName</code> or <code>partId</code>.
+     * If the part input is an integer, it searches by Id first then by name, if the input is non-integer it searches only by name.
+     * @return
+     * returns true if part is found, returns false if part is not found.
+     */
+    public boolean searchParts() {
         try {
             if (searchParts.getText().matches("[\\p{Digit}]+")) {
             partTable.getSelectionModel().select(inventory.lookupPart(Integer.parseInt(searchParts.getText())));
-            if(inventory.lookupPart(Integer.parseInt(searchParts.getText())) == null) return false;
+            if(inventory.lookupPart(Integer.parseInt(searchParts.getText())) == null){
+                partTable.getSelectionModel().select(inventory.lookupPart(searchParts.getText()));
+                System.out.println("fired");
+                if (inventory.lookupPart(searchParts.getText()) == null) return false;
+            }
 
             } else {
                 partTable.getSelectionModel().select(inventory.lookupPart(searchParts.getText()));
@@ -238,9 +270,13 @@ public class Controller {
         return true;
 
     }
-
-    public void searchPartsEnter() {
-        if(!searchPartsType()) {
+    /**
+     * When the user presses enter while typing in a part name or ID, if part is not found, displays a "No Parts Found!" message.
+     * Uses the <code>searchParts()</code> method and if the method returns false, displays an informational message alerting the user that
+     * the part is not found
+     */
+    public void searchPartsOnEnter() {
+        if(!searchParts()) {
             Alert info = new Alert(Alert.AlertType.INFORMATION);
             info.setTitle("No Parts Found!");
             info.setHeaderText("There were no parts found by that description!");
@@ -249,11 +285,22 @@ public class Controller {
         }
     }
 
-    public boolean searchProductsOnType() {
+    /**
+     * Searches for products based on the <code>productId</code> or <code>productName</code>.
+     * Automatically selects the part associated with the <code>productId</code> or <code>productName</code>.
+     * If the part input is an integer, it searches by Id first then by name, if the input is non-integer it searches only by name.
+     *
+     * @return
+     * returns true if part is found, returns false if part is not found.
+     */
+    public boolean searchProducts() {
         try {
             if (searchProducts.getText().matches("[\\p{Digit}]+")) {
                 productTable.getSelectionModel().select(Controller.getInventory().lookupProduct(Integer.parseInt(searchProducts.getText())));
-                if(Controller.getInventory().lookupProduct(Integer.parseInt(searchProducts.getText())) == null) return false;
+                if(Controller.getInventory().lookupProduct(Integer.parseInt(searchProducts.getText())) == null) {
+                    productTable.getSelectionModel().select(Controller.getInventory().lookupProduct(searchProducts.getText()));
+                    if (Controller.getInventory().lookupProduct(searchProducts.getText()) == null) return false;
+                }
             } else {
                 productTable.getSelectionModel().select(Controller.getInventory().lookupProduct(searchProducts.getText()));
                 if (Controller.getInventory().lookupProduct(searchProducts.getText()) == null) return false;
@@ -263,42 +310,11 @@ public class Controller {
         }
         return true;
     }
-
-    public void searchProductsOnEnter() {
-        if(!searchProductsOnType()) {
-            Alert info = new Alert(Alert.AlertType.INFORMATION);
-            info.setTitle("No Parts Found!");
-            info.setHeaderText("There were no parts found by that description!");
-            info.setContentText("Please check your spelling, and try again. You may also search by Part ID.");
-            info.show();
-        }
-    }
-
+    /**
+     * Deletes the selected part after displaying a confirmation message to the user.
+     * If the part is associated with any products, displays an error message stating which product it is associated with, and that it cannot be deleted
+     */
     public void deletePart() {
-        boolean hasAssociatedProduct = false;
-        Product associatedProduct = null;
-
-        Part currentPart = partTable.getSelectionModel().getSelectedItem();
-        for(Product product : inventory.getAllProducts()) {
-            if(product.getAllAssociatedParts().contains(currentPart)){
-                hasAssociatedProduct = true;
-                associatedProduct = product;
-                break;
-            }
-        }
-
-        if (hasAssociatedProduct) {
-
-                Alert errorMessage = new Alert(Alert.AlertType.ERROR);
-                errorMessage.setTitle("Part Cannot be Deleted!");
-                errorMessage.setHeaderText("This part has products associated with it.");
-                errorMessage.setContentText("In order to delete this part, you must first delete all parts " +
-                        "associated with " + associatedProduct.getName() +". After you do this, you may delete the part.");
-                errorMessage.show();
-                return;
-        }
-
-
         Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION);
         confirmation.setTitle("Confirm Delete Part");
         confirmation.setHeaderText("Are you sure you want to delete this part?");
@@ -306,29 +322,66 @@ public class Controller {
         confirmation.showAndWait();
         if (confirmation.getResult().getButtonData().isCancelButton()) return;
 
-        inventory.deletePart(currentPart);
-        /*try {
-            InventoryData.getInstance().storePartInventory();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
+        Part currentPart = partTable.getSelectionModel().getSelectedItem();
+        boolean isDeleted = inventory.deletePart(currentPart);;
 
-    }
-
-    public void deleteProduct() {
-        Product currentProduct = productTable.getSelectionModel().getSelectedItem();
-        if (currentProduct == null) return;
-        boolean hasAssociatedPart = false;
-        int counter = 0;
-        for(Part part : currentProduct.getAllAssociatedParts()) {
-            counter ++;
-            if(counter > 0){
-                hasAssociatedPart = true;
+        Product associatedProduct = null;
+        for(Product product : inventory.getAllProducts()) {
+            if(product.getAllAssociatedParts().contains(currentPart)){
+                associatedProduct = product;
                 break;
             }
         }
 
-        if (hasAssociatedPart) {
+        if (!isDeleted) {
+
+            Alert errorMessage = new Alert(Alert.AlertType.ERROR);
+            errorMessage.setTitle("Part Cannot be Deleted!");
+            errorMessage.setHeaderText("This part has products associated with it.");
+            errorMessage.setContentText("In order to delete this part, you must first delete all parts " +
+                    "associated with " + associatedProduct.getName() +". After you do this, you may delete the part.");
+            errorMessage.show();
+            return;
+        }
+
+        try {
+            InventoryData.getInstance().storePartInventory();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    /**
+     * When the user presses enter while typing in a <code>productId</code> or <code>productName</code>, if product is not found, displays a "No products Found!" message.
+     * Uses the <code>searchProducts()</code> method and if the method returns false, displays an informational message alerting the user that
+     * the product is not found
+     */
+    public void searchProductsOnEnter() {
+        if(!searchProducts()) {
+            Alert info = new Alert(Alert.AlertType.INFORMATION);
+            info.setTitle("No Products Found!");
+            info.setHeaderText("There were no Products found by that description!");
+            info.setContentText("Please check your spelling, and try again. You may also search by Product ID.");
+            info.show();
+        }
+    }
+    /**
+     * Deletes the selected product after displaying a confirmation message to the user.
+     * If the product has any parts associated with it, displays an error message stating that it has parts associated with it, and that it cannot be deleted.
+     */
+    public void deleteProduct() {
+        Product currentProduct = productTable.getSelectionModel().getSelectedItem();
+        if (currentProduct == null) return;
+        Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmation.setTitle("Confirm Delete Product");
+        confirmation.setHeaderText("Are you sure you want to delete this product?");
+        confirmation.setContentText("This action cannot be undone! Only proceed if you are sure you want to delete this product!");
+        confirmation.showAndWait();
+        if (confirmation.getResult().getButtonData().isCancelButton()) return;
+
+        boolean isDeleted = inventory.deleteProduct(currentProduct);
+        if (!isDeleted) {
 
             Alert errorMessage = new Alert(Alert.AlertType.ERROR);
             errorMessage.setTitle("Product Cannot be Deleted!");
@@ -339,30 +392,28 @@ public class Controller {
             return;
         }
 
-        Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION);
-        confirmation.setTitle("Confirm Delete Product");
-        confirmation.setHeaderText("Are you sure you want to delete this product?");
-        confirmation.setContentText("This action cannot be undone! Only proceed if you are sure you want to delete this product!");
-        confirmation.showAndWait();
-        if (confirmation.getResult().getButtonData().isCancelButton()) return;
-        inventory.deleteProduct(currentProduct);
 
-        /*try {
+
+        try {
             InventoryData.getInstance().storeProductInventory();
         } catch (IOException e) {
             e.printStackTrace();
-         }*/
+         }
     }
+
+    /**
+     * Adds functionality to the <code>exitButton</code> element which closes the program, and stores all Inventory Data.
+     */
     @FXML
     public void exit(){
-/*        try {
+        try {
             InventoryData.getInstance().storePartInventory();
             InventoryData.getInstance().storePartIdIndex();
             InventoryData.getInstance().storeProductIdIndex();
             InventoryData.getInstance().storeProductInventory();
         } catch (IOException e) {
             e.printStackTrace();
-        }*/
+        }
         Stage stage = (Stage) exitButton.getScene().getWindow();
         stage.close();
 

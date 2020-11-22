@@ -104,8 +104,8 @@
                         </padding>
                         <TextFieldLimited promptText="Search by Part ID or Name"
                                           fx:id="searchParts"
-                                          onKeyReleased="#searchPartsType"
-                                          onAction="#searchPartsEnter"
+                                          onKeyReleased="#searchParts"
+                                          onAction="#searchPartsOnEnter"
                                           maxWidth="160"/>
                     </VBox>
                     <TableView fx:id="availablePartTable">

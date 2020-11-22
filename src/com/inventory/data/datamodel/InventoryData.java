@@ -1,4 +1,3 @@
-/*
 package com.inventory.data.datamodel;
 
 import com.inventory.Controller;
@@ -10,18 +9,53 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+/**
+ * Reads and writes inventory Data to a flat .txt file
+ */
 public class InventoryData {
+    /**
+     * Creates a singleton instance of the  <code>InventoryData</code> class
+     * This is so that the instance of this class can be accessed publicly without the need for instantiation.
+     */
     private static final InventoryData instance = new InventoryData();
+    /**
+     * The name of the file that all products in the inventory stored in.
+     * This member exists to ensure no typos occur.
+     */
     private static final String productsFileName = "ProductInventory.txt";
+    /**
+     * The name of the file that all parts in the inventory stored in.
+     * This member exists to ensure no typos occur.
+     */
     private static final String partsFileName = "PartsInventory.txt";
+    /**
+     * The name of the file the current part index is stored in.
+     * This member exists to ensure no typos occur.
+     */
     private static final String idIndexFileName = "partIdIndex.txt";
+    /**
+     * The name of the file the currnet product index is stored in.
+     * This member exists to ensure no typos occur.
+     */
     private static final String productIdIndexFileName = "productIdIndex.txt";
 
 
+    /**
+     * Returns the instance of the <code>InventoryData</code> Object, which is instantiated when the member <code>instance</code> is declared.
+     * @return
+     * Returns the instance of the <code>InventoryData</code> Object.
+     */
     public static InventoryData getInstance() {
         return instance;
     }
 
+    /**
+     * Loads Part data into the instance of the Inventory class in the Controller Object.
+     * This class creates a <code>BufferedReader</code> and reads comma-delimited file Data about Parts, and creates new instances of the Parts,
+     * then adds each instance into Inventory
+     * @throws IOException
+     * Will throw an <code>IOException</code> if the file to be read does not exist, or if the buffered reader encounters any errors during the process
+     */
     public void loadPartInventory() throws IOException {
         Path path = Paths.get(partsFileName);
 
@@ -43,13 +77,18 @@ public class InventoryData {
                 } else {
                     part = new Outsourced(Integer.parseInt(id), name, Double.parseDouble(price), Integer.parseInt(stock), Integer.parseInt(min), Integer.parseInt(max), temp);
                 }
-
-
                 Controller.getInventory().addPart(part);
             }
         }
     }
 
+    /**
+     * This method stores Part Data in comma-delimited format so that the data may persist in memory.
+     * Creates a  <code>BufferedWriter</code> and writes the values from each part in Inventory to a flat .txt file.
+     * @throws IOException
+     * If file path is invalid or other errors occur during the write Process this method will
+     * throw an <code>IOException</code>
+     */
     public void storePartInventory() throws IOException {
         Path  path = Paths.get(partsFileName);
 
@@ -64,6 +103,12 @@ public class InventoryData {
         }
     }
 
+    /**
+     * Writes current partID Index into a .txt file for storage.
+     * @throws IOException
+     * If file path is invalid or other errors occur during the write Process this method will
+     * throw an <code>IOException</code>
+     */
     public void storePartIdIndex() throws IOException {
         Path path = Paths.get(idIndexFileName);
         BufferedWriter bw = Files.newBufferedWriter(path);
@@ -73,6 +118,12 @@ public class InventoryData {
         bw.close();
     }
 
+    /**
+     * Loads partIdIndex into the AtomicInteger member of Controller class.
+     * @throws IOException
+     * If file path is invalid or other errors occur during the write Process this method will
+     * throw an <code>IOException</code>
+     */
     public void loadIdIndex() throws IOException {
         Path path = Paths.get(idIndexFileName);
 
@@ -84,6 +135,12 @@ public class InventoryData {
         }
     }
 
+    /**
+     * Writes current productID Index into a .txt file for storage.
+     * @throws IOException
+     * If file path is invalid or other errors occur during the write Process this method will
+     * throw an <code>IOException</code>
+     */
     public void storeProductIdIndex() throws IOException {
         Path path = Paths.get(productIdIndexFileName);
         BufferedWriter bw = Files.newBufferedWriter(path);
@@ -92,6 +149,12 @@ public class InventoryData {
         bw.close();
     }
 
+    /**
+     * Loads productIdIndex into the AtomicInteger member of Controller class.
+     * @throws IOException
+     * If file path is invalid or other errors occur during the write Process this method will
+     * throw an <code>IOException</code>
+     */
     public void loadProductIdIndex() throws IOException {
         Path path = Paths.get(productIdIndexFileName);
         try (BufferedReader br = Files.newBufferedReader(path)) {
@@ -101,6 +164,14 @@ public class InventoryData {
             }
         }
     }
+
+    /**
+     * Loads Product data into the instance of the Inventory class in the Controller Object.
+     * This class creates a <code>BufferedReader</code> and reads comma-delimited file Data about Products, and creates new instances of the Products,
+     * then adds each instance into Inventory
+     * @throws IOException
+     * Will throw an <code>IOException</code> if the file to be read does not exist, or if the buffered reader encounters any errors during the process
+     */
     public void loadProductInventory() throws IOException {
         Path path = Paths.get(productsFileName);
 
@@ -141,8 +212,14 @@ public class InventoryData {
                 }
             }
         }
-        }
-
+    }
+    /**
+     * This method stores Product Data in comma-delimited format so that the data may persist in memory.
+     * Creates a  <code>BufferedWriter</code> and writes the values from each part in Inventory to a flat .txt file.
+     * @throws IOException
+     * If file path is invalid or other errors occur during the write Process this method will
+     * throw an <code>IOException</code>
+     */
     public void storeProductInventory() throws IOException {
         Path  path = Paths.get(productsFileName);
         try (BufferedWriter bw = Files.newBufferedWriter(path)) {
@@ -170,11 +247,8 @@ public class InventoryData {
                                 type));
                         bwPart.newLine();
                     }
-
                 }
             }
-
-
         }
     }
 }
@@ -183,4 +257,3 @@ public class InventoryData {
 
 
 
-*/
